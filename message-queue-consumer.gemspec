@@ -7,9 +7,9 @@ require 'message_queue_consumer/version'
 Gem::Specification.new do |s|
   s.name = "message-queue-consumer"
   s.version = MessageQueueConsumer::VERSION
-  s.authors = ["Stuart Gale"]
-  s.summary = "Simplify message queue consumption"
-  s.description = "Avoid writing boilerplate code in order to consume messages from a queue. Plug in queue configuration, and how to process each message."
+  s.authors = ["GOV.UK Dev"]
+  s.summary = "AMQP message queue consumption with GOV.UK conventions"
+  s.description = "Avoid writing boilerplate code in order to consume messages from an AMQP message queue. Plug in queue configuration, and how to process each message."
   s.homepage = "https://github.com/alphagov/message-queue-consumer"
   s.email = ["govuk-dev@digital.cabinet-office.gov.uk"]
 
