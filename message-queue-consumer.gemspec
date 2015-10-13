@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
 
   s.add_dependency 'bunny', '~> 2.2.0'
-  s.add_dependency 'activesupport', '~> 4.2.4'
+  s.add_dependency 'activesupport', '~> 4.0'
 
   s.add_development_dependency 'gem_publisher', '~> 1.5.0'
   s.add_development_dependency 'rspec', '~> 3.3.0'
