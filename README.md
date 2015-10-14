@@ -15,10 +15,14 @@ This is a ruby gem that deals with the boiler plate code of connecting,
 subscribing, etc, to [RabbitMQ](https://www.rabbitmq.com/).
 
 The user of this gem is left the task of supplying their rabbitmq infrastructure
-configuration and a class that processes messages.
+configuration and an instance of a class that processes messages.
 
-The message format received by the client processor is found in
+The message format received by the message processor is found in
 `lib/message_queue_consumer/message.rb`
+
+Rspec shared examples are located in
+`lib/message_queue_consumer/support/shared_examples_for_message_processor.rb` to
+help ensure the message processor has the correct properties.
 
 
 ### Dependencies
@@ -29,9 +33,23 @@ The message format received by the client processor is found in
 
 ### Running the application
 
-Example usage:
+We recommend creating a rake task like the following example:
 
 ```ruby
+namespace :message_queue do
+  desc "Run worker to consume messages from rabbitmq"
+  task consumer: :environment do
+    config = get_rabbitmq_configuration_hash
+    # ^ eg YAML.load_file(Rails.root.join('config', 'rabbitmq.yml'))[Rails.env]
+    MessageQueueConsumer::Consumer.new(config, MyProcessor.new).run
+  end
+end
+```
+
+`message_queue_consumer` expects configuration and a processor to be supplied:
+
+```ruby
+# example configuration. Could be stored in YAML if preferred
 config = {
     host: 'localhost',
     port: 5672,
@@ -42,20 +60,18 @@ config = {
     queue: my_queue,
 }
 
-class Processor
+# example message processor
+class MyProcessor
   def process(message)
     message.ack
   end
 end
-
-consumer = MessageQueueConsumer::Consumer.new(config, Processor.new)
-consumer.run
 ```
 
 
 ### Running the test suite
 
-```
+```bash
 bundle exec rake spec
 ```
 
