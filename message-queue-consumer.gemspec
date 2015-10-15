@@ -13,8 +13,6 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/alphagov/message-queue-consumer"
   s.email = ["govuk-dev@digital.cabinet-office.gov.uk"]
 
-  s.required_ruby_version = '2.2.3'
-
   s.files = Dir.glob("lib/**/*") + %w{README.md Rakefile}
   s.test_files = Dir["spec/*"]
   s.require_path = 'lib'
