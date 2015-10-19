@@ -1,4 +1,4 @@
-# Message queue consumer
+# GOV.UK Message queue consumer
 
 Standardise the way GOV.UK consumes messages from RabbitMQ.
 
@@ -18,10 +18,10 @@ The user of this gem is left the task of supplying their rabbitmq infrastructure
 configuration and an instance of a class that processes messages.
 
 The message format received by the message processor is found in
-`lib/message_queue_consumer/message.rb`
+`lib/govuk_message_queue_consumer/message.rb`
 
 Rspec shared examples are located in
-`lib/message_queue_consumer/support/shared_examples_for_message_processor.rb` to
+`lib/govuk_message_queue_consumer/support/shared_examples_for_message_processor.rb` to
 help ensure the message processor has the correct properties.
 
 
@@ -41,12 +41,12 @@ namespace :message_queue do
   task consumer: :environment do
     config = get_rabbitmq_configuration_hash
     # ^ eg YAML.load_file(Rails.root.join('config', 'rabbitmq.yml'))[Rails.env]
-    MessageQueueConsumer::Consumer.new(config, MyProcessor.new).run
+    GovukMessageQueueConsumer::Consumer.new(config, MyProcessor.new).run
   end
 end
 ```
 
-`message_queue_consumer` expects configuration and a processor to be supplied:
+`govuk_message_queue_consumer` expects configuration and a processor to be supplied:
 
 ```ruby
 # example configuration. Could be stored in YAML if preferred

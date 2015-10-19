@@ -1,7 +1,7 @@
 require 'active_support/core_ext/hash/indifferent_access'
 require 'bunny'
 
-module MessageQueueConsumer
+module GovukMessageQueueConsumer
   class Consumer
     def initialize(config, processor)
       @processor = HeartbeatProcessor.new(processor)

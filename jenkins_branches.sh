@@ -8,7 +8,7 @@ VENV_PATH="${HOME}/venv/${JOB_NAME}"
 
 pip install -q ghtools
 
-REPO="alphagov/message-queue-consumer"
+REPO="alphagov/govuk-message-queue-consumer"
 gh-status "$REPO" "$GIT_COMMIT" pending -d "\"Build #${BUILD_NUMBER} is running on Jenkins\"" -u "$BUILD_URL" >/dev/null
 
 if ./jenkins.sh; then
