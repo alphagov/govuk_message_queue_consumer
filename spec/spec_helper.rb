@@ -1,6 +1,6 @@
-require_relative '../lib/message_queue_consumer'
+require_relative '../lib/govuk_message_queue_consumer'
 
-include MessageQueueConsumer
+include GovukMessageQueueConsumer
 
 module TestHelpers
   def rabbitmq_config

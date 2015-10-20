@@ -1,6 +1,6 @@
 require 'json'
 
-module MessageQueueConsumer
+module GovukMessageQueueConsumer
   # Client code will receive an instance of this
   class Message
     def initialize(delivery_info, headers, payload)

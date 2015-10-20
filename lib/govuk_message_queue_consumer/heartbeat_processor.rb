@@ -1,4 +1,4 @@
-module MessageQueueConsumer
+module GovukMessageQueueConsumer
   class HeartbeatProcessor
     def initialize(next_processor)
       @next_processor = next_processor
