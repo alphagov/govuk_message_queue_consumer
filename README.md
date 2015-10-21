@@ -20,11 +20,6 @@ configuration and an instance of a class that processes messages.
 The message format received by the message processor is found in
 `lib/govuk_message_queue_consumer/message.rb`
 
-Rspec shared examples are located in
-`lib/govuk_message_queue_consumer/support/shared_examples_for_message_processor.rb` to
-help ensure the message processor has the correct properties.
-
-
 ### Dependencies
 
 - **bunny**: to interact with RabbitMQ
@@ -68,6 +63,20 @@ class MyProcessor
 end
 ```
 
+#### Testing your processor
+
+This gem provides a test helper for your processor.
+
+```ruby
+require 'test_helper'
+require 'govuk_message_queue_consumer/test_helpers'
+
+describe MyProcessor do
+  it_behaves_like "a message queue processor"
+end
+```
+
+This will verify that your processor class implements the correct methods. You should add your own tests to verify its behaviour.
 
 ### Running the test suite
 
