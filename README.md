@@ -35,7 +35,7 @@ namespace :message_queue do
   desc "Run worker to consume messages from rabbitmq"
   task consumer: :environment do
     config = get_rabbitmq_configuration_hash
-    # ^ eg YAML.load_file(Rails.root.join('config', 'rabbitmq.yml'))[Rails.env]
+    # ^ eg YAML.load_file(Rails.root.join('config', 'rabbitmq.yml'))[Rails.env].with_indifferent_access
     GovukMessageQueueConsumer::Consumer.new(config, MyProcessor.new).run
   end
 end

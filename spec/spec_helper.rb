@@ -5,16 +5,16 @@ include GovukMessageQueueConsumer
 module TestHelpers
   def rabbitmq_config
     {
-      "connection" => {
-        "hosts" => ["rabbitmq1.example.com", "rabbitmq2.example.com"],
-        "port" => 5672,
-        "vhost" => "/",
-        "user" => "a_user",
-        "pass" => "super secret",
-        "recover_from_connection_close" => true,
+      connection: {
+        hosts: ["rabbitmq1.example.com", "rabbitmq2.example.com"],
+        port: 5672,
+        vhost: "/",
+        user: "a_user",
+        pass: "super secret",
+        recover_from_connection_close: true,
       },
-      "queue" => "content_register",
-      "exchange" => "published_documents",
+      queue: "content_register",
+      exchange: "published_documents",
     }
   end
 

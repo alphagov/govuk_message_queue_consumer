@@ -1,4 +1,3 @@
-require 'active_support/core_ext/hash/indifferent_access'
 require 'bunny'
 
 module GovukMessageQueueConsumer
@@ -6,10 +5,9 @@ module GovukMessageQueueConsumer
     def initialize(config, processor)
       @processor = HeartbeatProcessor.new(processor)
 
-      @config = config.with_indifferent_access
-      @queue_name = @config.fetch(:queue)
-      @bindings = { @config.fetch(:exchange) => "#" }
-      @connection = Bunny.new(@config[:connection].symbolize_keys)
+      @queue_name = config.fetch(:queue)
+      @bindings = { config.fetch(:exchange) => "#" }
+      @connection = Bunny.new(config.fetch(:connection))
       @connection.start
     end
 
