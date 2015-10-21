@@ -1,5 +1,4 @@
-RSpec.shared_examples "a message processor" do
-  # set the subject in your own tests
+RSpec.shared_examples "a message queue processor" do
   it "implements #process" do
     expect(subject).to respond_to(:process)
   end

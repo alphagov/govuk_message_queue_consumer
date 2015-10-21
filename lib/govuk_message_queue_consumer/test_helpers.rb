@@ -1,0 +1,1 @@
+require 'govuk_message_queue_consumer/test_helpers/shared_examples'
