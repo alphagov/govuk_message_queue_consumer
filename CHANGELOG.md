@@ -1,3 +1,10 @@
+# 1.0.0
+
+- Rename the gem to `govuk_message_queue_consumer`
+- Make test helpers easier to use
+- Readme improvements
+- Initial release!
+
 # 0.9.1
 
 Bug fix:
