@@ -22,7 +22,7 @@ describe Consumer do
     end
 
     it "connects to rabbitmq" do
-      expected_options = rabbitmq_config['connection'].symbolize_keys # Bunny requires the keys to be symbols
+      expected_options = rabbitmq_config.fetch(:connection)
       expect(Bunny).to receive(:new).with(expected_options).and_return(rabbitmq_connecton)
       expect(rabbitmq_connecton).to receive(:start)
 
