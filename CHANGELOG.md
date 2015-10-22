@@ -2,6 +2,7 @@
 
 - Use environment variables for RabbitMQ configuration
 - Use keyword arguments for the `Consumer` setup
+- Add `GovukMessageQueueConsumer::MockMessage` for easy testing.
 
 # 1.0.0
 

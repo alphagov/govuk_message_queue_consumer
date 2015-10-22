@@ -85,6 +85,23 @@ end
 
 This will verify that your processor class implements the correct methods. You should add your own tests to verify its behaviour.
 
+You can use `GovukMessageQueueConsumer::MockMessage` to test the processor behaviour. When using the mock, you can verify it acknowledged, retried or discarded. For example, with `MyProcessor` above:
+
+```ruby
+it "acks incoming messages" do
+  message = GovukMessageQueueConsumer::MockMessage.new
+
+  MyProcessor.new.process(message)
+
+  expect(message).to be_acked
+
+  # or if you use minitest:
+  assert message.acked?
+end
+```
+
+For more test cases [see the spec for the mock itself](/spec/mock_message_spec.rb).
+
 ### Running the test suite
 
 ```bash
