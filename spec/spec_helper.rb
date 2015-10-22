@@ -3,23 +3,12 @@ require_relative '../lib/govuk_message_queue_consumer'
 include GovukMessageQueueConsumer
 
 module TestHelpers
-  def rabbitmq_config
-    {
-      "connection" => {
-        "hosts" => ["rabbitmq1.example.com", "rabbitmq2.example.com"],
-        "port" => 5672,
-        "vhost" => "/",
-        "user" => "a_user",
-        "pass" => "super secret",
-        "recover_from_connection_close" => true,
-      },
-      "queue" => "content_register",
-      "exchange" => "published_documents",
-    }
-  end
-
-  def message_values
-    [:delivery_info1, :headers1, "message1_body"]
+  def stub_environment_variables!
+    ENV["RABBITMQ_HOSTS"] ||= ""
+    ENV["RABBITMQ_PORT"] ||= ""
+    ENV["RABBITMQ_VHOST"] ||= "/"
+    ENV["RABBITMQ_USER"] ||= "/"
+    ENV["RABBITMQ_PASSWORD"] ||= "/"
   end
 end
 

@@ -1,3 +1,8 @@
+# Unreleased
+
+- Use environment variables for RabbitMQ configuration
+- Use keyword arguments for the `Consumer` setup
+
 # 1.0.0
 
 - Rename the gem to `govuk_message_queue_consumer`
