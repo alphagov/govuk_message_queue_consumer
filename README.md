@@ -46,7 +46,6 @@ The consumer expects a number of environment variables to be present:
 
 ```
 RABBITMQ_HOSTS=rabbitmq1.example.com,rabbitmq2.example.com
-RABBITMQ_PORT=5672
 RABBITMQ_VHOST=/
 RABBITMQ_USER=a_user
 RABBITMQ_PASSWORD=a_super_secret

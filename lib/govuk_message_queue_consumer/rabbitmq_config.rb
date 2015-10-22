@@ -5,7 +5,6 @@ class RabbitMQConfig
   def from_environment
     {
       hosts: fetch("RABBITMQ_HOSTS").split(','),
-      port: fetch("RABBITMQ_PORT").to_i,
       vhost: fetch("RABBITMQ_VHOST"),
       user: fetch("RABBITMQ_USER"),
       pass: fetch("RABBITMQ_PASSWORD"),
