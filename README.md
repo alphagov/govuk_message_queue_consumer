@@ -25,7 +25,6 @@ The message format received by the message processor is found in
 - **bunny**: to interact with RabbitMQ
 - **activesupport**: use `with_indifferent_access` for Bunny
 
-
 ### Running the application
 
 We recommend creating a rake task like the following example:
@@ -34,33 +33,41 @@ We recommend creating a rake task like the following example:
 namespace :message_queue do
   desc "Run worker to consume messages from rabbitmq"
   task consumer: :environment do
-    config = get_rabbitmq_configuration_hash
-    # ^ eg YAML.load_file(Rails.root.join('config', 'rabbitmq.yml'))[Rails.env]
-    GovukMessageQueueConsumer::Consumer.new(config, MyProcessor.new).run
+    GovukMessageQueueConsumer::Consumer.new(
+      queue_name: "some-queue",
+      exchange: "some-exchange",
+      processor: MyProcessor.new
+    ).run
   end
 end
 ```
 
-`govuk_message_queue_consumer` expects configuration and a processor to be supplied:
+The consumer expects a number of environment variables to be present:
+
+```
+RABBITMQ_HOSTS=rabbitmq1.example.com,rabbitmq2.example.com
+RABBITMQ_PORT=5672
+RABBITMQ_VHOST=/
+RABBITMQ_USER=a_user
+RABBITMQ_PASSWORD=a_super_secret
+```
+
+Define a class that will process the messages:
 
 ```ruby
-# example configuration. Could be stored in YAML if preferred
-config = {
-    host: 'localhost',
-    port: 5672,
-    user: rabbitmq_user,
-    pass: rabbitmq_pass,
-    recover_from_connection_close: true,
-    exchange: my_exchange,
-    queue: my_queue,
-}
-
 # example message processor
 class MyProcessor
   def process(message)
     message.ack
   end
 end
+```
+
+Because you need the environment variables when running the consumer, you should use
+`govuk_setenv` to run your app:
+
+```
+$ govuk_setenv app-name bundle exec rake message_queue:consumer
 ```
 
 #### Testing your processor

@@ -1,15 +1,12 @@
-require 'active_support/core_ext/hash/indifferent_access'
 require 'bunny'
 
 module GovukMessageQueueConsumer
   class Consumer
-    def initialize(config, processor)
+    def initialize(queue_name:, exchange:, processor:)
       @processor = HeartbeatProcessor.new(processor)
-
-      @config = config.with_indifferent_access
-      @queue_name = @config.fetch(:queue)
-      @bindings = { @config.fetch(:exchange) => "#" }
-      @connection = Bunny.new(@config[:connection].symbolize_keys)
+      @queue_name = queue_name
+      @bindings = { exchange => "#" }
+      @connection = Bunny.new(RabbitMQConfig.new.from_environment)
       @connection.start
     end
 
