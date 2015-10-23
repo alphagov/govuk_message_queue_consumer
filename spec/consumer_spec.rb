@@ -1,27 +1,15 @@
 require_relative 'spec_helper'
 
 describe Consumer do
-  let(:message_values) { [:delivery_info1, :headers1, "message1_body"] }
+  let(:message_values) { [:delivery_info1, :headers1, "message1_payload"] }
   let(:queue) { instance_double('Bunny::Queue', bind: nil, subscribe: message_values) }
   let(:channel) { instance_double('Bunny::Channel', queue: queue, prefetch: nil, topic: nil) }
   let(:rabbitmq_connecton) { instance_double("Bunny::Session", start: nil, create_channel: channel) }
   let(:client_processor) { instance_double('Client::Processor') }
 
   before do
+    stub_environment_variables!
     allow(Bunny).to receive(:new).and_return(rabbitmq_connecton)
-  end
-
-  describe "constructing an instance" do
-    let(:rabbitmq_connecton) { instance_double("Bunny::Session", start: nil, create_channel: channel) }
-    let(:client_processor) { instance_double('Client::Processor') }
-
-    it "passes the client processor to the Heartbeat Processor" do
-      stub_environment_variables!
-
-      expect(HeartbeatProcessor).to receive(:new).with(client_processor)
-
-      Consumer.new(queue_name: "some-queue", exchange: "my-exchange", processor: client_processor)
-    end
   end
 
   describe "running the consumer" do

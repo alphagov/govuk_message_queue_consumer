@@ -1,14 +1,14 @@
 module GovukMessageQueueConsumer
   class MockMessage
-    attr_reader :acked, :retried, :discarded, :body_data, :delivery_info,
-                :headers, :body
+    attr_reader :acked, :retried, :discarded
+    attr_accessor :payload, :delivery_info, :headers
 
     alias :acked? :acked
     alias :discarded? :discarded
     alias :retried? :retried
 
-    def initialize(body_data = {})
-      @body_data = body_data
+    def initialize(payload = {})
+      @payload = payload
     end
 
     def ack

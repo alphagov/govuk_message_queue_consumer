@@ -3,16 +3,12 @@ require 'json'
 module GovukMessageQueueConsumer
   # Client code will receive an instance of this
   class Message
+    attr_reader :delivery_info, :headers, :payload
+
     def initialize(delivery_info, headers, payload)
       @delivery_info = delivery_info
       @headers = headers
-      @body = payload
-    end
-
-    attr_reader :delivery_info, :headers, :body
-
-    def body_data
-      @body_data ||= JSON.parse(@body)
+      @payload = payload
     end
 
     def ack
