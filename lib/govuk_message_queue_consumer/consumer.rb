@@ -11,10 +11,10 @@ module GovukMessageQueueConsumer
     # time to share the work evenly.
     NUMBER_OF_MESSAGES_TO_PREFETCH = 1
 
-    def initialize(queue_name:, exchange:, processor:)
+    def initialize(queue_name:, exchange:, processor:, routing_key: '#')
       @processor = HeartbeatProcessor.new(processor)
       @queue_name = queue_name
-      @bindings = { exchange => "#" }
+      @bindings = { exchange => routing_key }
       @connection = Bunny.new(RabbitMQConfig.new.from_environment)
       @connection.start
     end
