@@ -3,7 +3,7 @@ require 'json'
 module GovukMessageQueueConsumer
   # Client code will receive an instance of this
   class Message
-    attr_reader :delivery_info, :headers, :payload
+    attr_accessor :delivery_info, :headers, :payload
 
     def initialize(delivery_info, headers, payload)
       @delivery_info = delivery_info
