@@ -12,7 +12,7 @@ module GovukMessageQueueConsumer
     NUMBER_OF_MESSAGES_TO_PREFETCH = 1
 
     def initialize(queue_name:, exchange:, processor:, routing_key: '#')
-      @processor = HeartbeatProcessor.new(processor)
+      @processor_chain = HeartbeatProcessor.new(JSONProcessor.new(processor))
       @queue_name = queue_name
       @bindings = { exchange => routing_key }
       @connection = Bunny.new(RabbitMQConfig.new.from_environment)
@@ -22,7 +22,8 @@ module GovukMessageQueueConsumer
     def run
       queue.subscribe(:block => true, :manual_ack => true) do |delivery_info, headers, payload|
         begin
-          @processor.process(Message.new(delivery_info, headers, payload))
+          message = Message.new(delivery_info, headers, payload)
+          @processor_chain.process(message)
         rescue Exception => e
           $stderr.puts "rabbitmq_consumer: aborting due to unhandled exception in processor #{e.class}: #{e.message}"
           exit(1) # ensure rabbitmq requeues outstanding messages
