@@ -1,2 +1,3 @@
 require 'govuk_message_queue_consumer/test_helpers/shared_examples'
 require 'govuk_message_queue_consumer/test_helpers/mock_message'
+require 'govuk_message_queue_consumer/test_helpers/test_consumer'
