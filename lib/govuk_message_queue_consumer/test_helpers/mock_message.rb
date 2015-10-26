@@ -7,8 +7,9 @@ module GovukMessageQueueConsumer
     alias :discarded? :discarded
     alias :retried? :retried
 
-    def initialize(payload = {})
+    def initialize(payload = {}, options = {})
       @payload = payload
+      @headers = OpenStruct.new(options[:headers])
     end
 
     def ack
