@@ -35,7 +35,7 @@ namespace :message_queue do
   task consumer: :environment do
     GovukMessageQueueConsumer::Consumer.new(
       queue_name: "some-queue",
-      exchange: "some-exchange",
+      exchange_name: "some-exchange",
       processor: MyProcessor.new
     ).run
   end

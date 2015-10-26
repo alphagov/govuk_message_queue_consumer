@@ -11,19 +11,18 @@ module GovukMessageQueueConsumer
     # time to share the work evenly.
     NUMBER_OF_MESSAGES_TO_PREFETCH = 1
 
-    def initialize(queue_name:, exchange:, processor:, routing_key: '#')
-      @processor_chain = HeartbeatProcessor.new(JSONProcessor.new(processor))
+    def initialize(queue_name:, exchange_name:, processor:, routing_key: '#')
       @queue_name = queue_name
-      @bindings = { exchange => routing_key }
-      @connection = Bunny.new(RabbitMQConfig.new.from_environment)
-      @connection.start
+      @exchange_name = exchange_name
+      @processor = processor
+      @routing_key = routing_key
     end
 
     def run
-      queue.subscribe(:block => true, :manual_ack => true) do |delivery_info, headers, payload|
+      queue.subscribe(block: true, manual_ack: true) do |delivery_info, headers, payload|
         begin
           message = Message.new(delivery_info, headers, payload)
-          @processor_chain.process(message)
+          processor_chain.process(message)
         rescue Exception => e
           $stderr.puts "rabbitmq_consumer: aborting due to unhandled exception in processor #{e.class}: #{e.message}"
           exit(1) # ensure rabbitmq requeues outstanding messages
@@ -31,21 +30,35 @@ module GovukMessageQueueConsumer
       end
     end
 
-    private
+  private
 
-    def queue
-      @queue ||= setup_queue
+    def processor_chain
+      @processor_chain ||= HeartbeatProcessor.new(JSONProcessor.new(@processor))
     end
 
-    def setup_queue
-      @channel = @connection.create_channel
-      @channel.prefetch(NUMBER_OF_MESSAGES_TO_PREFETCH)
-      queue = @channel.queue(@queue_name, :durable => true)
-      @bindings.each do |exchange_name, routing_key|
-        exchange = @channel.topic(exchange_name, :passive => true)
-        queue.bind(exchange, :routing_key => routing_key)
+    def queue
+      @queue ||= begin
+        channel.prefetch(NUMBER_OF_MESSAGES_TO_PREFETCH)
+        queue = channel.queue(@queue_name, durable: true)
+        queue.bind(exchange, routing_key: @routing_key)
+        queue
       end
-      queue
+    end
+
+    def exchange
+      @exchange ||= channel.topic(@exchange_name, passive: true)
+    end
+
+    def channel
+      @channel ||= connection.create_channel
+    end
+
+    def connection
+      @connection ||= begin
+        new_connection = Bunny.new(RabbitMQConfig.new.from_environment)
+        new_connection.start
+        new_connection
+      end
     end
   end
 end

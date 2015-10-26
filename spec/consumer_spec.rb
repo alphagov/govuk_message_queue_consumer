@@ -16,13 +16,13 @@ describe Consumer do
     it "binds the queue to the all-routing key" do
       expect(queue).to receive(:bind).with(nil, { routing_key: "#" })
 
-      Consumer.new(queue_name: "some-queue", exchange: "my-exchange", processor: client_processor).run
+      Consumer.new(queue_name: "some-queue", exchange_name: "my-exchange", processor: client_processor).run
     end
 
     it "binds the queue to a custom routing key" do
       expect(queue).to receive(:bind).with(nil, { routing_key: "*.major" })
 
-      Consumer.new(queue_name: "some-queue", exchange: "my-exchange", processor: client_processor, routing_key: "*.major").run
+      Consumer.new(queue_name: "some-queue", exchange_name: "my-exchange", processor: client_processor, routing_key: "*.major").run
     end
 
     it "calls the heartbeat processor when subscribing to messages" do
@@ -30,7 +30,7 @@ describe Consumer do
       expect(Message).to receive(:new).with(*message_values)
       expect_any_instance_of(HeartbeatProcessor).to receive(:process)
 
-      Consumer.new(queue_name: "some-queue", exchange: "my-exchange", processor: client_processor).run
+      Consumer.new(queue_name: "some-queue", exchange_name: "my-exchange", processor: client_processor).run
     end
   end
 end
