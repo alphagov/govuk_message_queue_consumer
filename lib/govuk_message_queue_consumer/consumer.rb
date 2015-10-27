@@ -18,7 +18,6 @@ module GovukMessageQueueConsumer
     end
 
     def run
-      puts "routing_key: #{routing_key}"
       queue.subscribe(block: true, manual_ack: true) do |delivery_info, headers, payload|
         begin
           message = Message.new(delivery_info, headers, payload)
@@ -62,7 +61,7 @@ module GovukMessageQueueConsumer
     end
 
     def routing_key
-      @processor.respond_to?(:routing_key) ? @processor.routing_key : "#"
+      @processor.routing_key
     end
   end
 end

@@ -5,7 +5,7 @@ describe Consumer do
   let(:queue) { instance_double('Bunny::Queue', bind: nil, subscribe: message_values) }
   let(:channel) { instance_double('Bunny::Channel', queue: queue, prefetch: nil, topic: nil) }
   let(:rabbitmq_connecton) { instance_double("Bunny::Session", start: nil, create_channel: channel) }
-  let(:client_processor) { instance_double('Client::Processor') }
+  let(:client_processor) { instance_double('Client::Processor', routing_key: nil) }
 
   before do
     stub_environment_variables!
@@ -15,6 +15,9 @@ describe Consumer do
   describe "running the consumer" do
     it "binds the queue to the all-routing key" do
       class Processor
+        def routing_key
+          "#"
+        end
       end
 
       expect(queue).to receive(:bind).with(nil, { routing_key: "#" })
