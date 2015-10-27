@@ -11,14 +11,14 @@ module GovukMessageQueueConsumer
     # time to share the work evenly.
     NUMBER_OF_MESSAGES_TO_PREFETCH = 1
 
-    def initialize(queue_name:, exchange_name:, processor:, routing_key: '#')
+    def initialize(queue_name:, exchange_name:, processor:)
       @queue_name = queue_name
       @exchange_name = exchange_name
       @processor = processor
-      @routing_key = routing_key
     end
 
     def run
+      puts "routing_key: #{routing_key}"
       queue.subscribe(block: true, manual_ack: true) do |delivery_info, headers, payload|
         begin
           message = Message.new(delivery_info, headers, payload)
@@ -40,7 +40,7 @@ module GovukMessageQueueConsumer
       @queue ||= begin
         channel.prefetch(NUMBER_OF_MESSAGES_TO_PREFETCH)
         queue = channel.queue(@queue_name, durable: true)
-        queue.bind(exchange, routing_key: @routing_key)
+        queue.bind(exchange, routing_key: routing_key)
         queue
       end
     end
@@ -59,6 +59,10 @@ module GovukMessageQueueConsumer
         new_connection.start
         new_connection
       end
+    end
+
+    def routing_key
+      @processor.respond_to?(:routing_key) ? @processor.routing_key : "#"
     end
   end
 end
