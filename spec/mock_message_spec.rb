@@ -4,7 +4,7 @@ require_relative '../lib/govuk_message_queue_consumer/test_helpers/mock_message'
 describe GovukMessageQueueConsumer::MockMessage do
   describe '#methods' do
     it "implements the same methods as Message" do
-      mock = MockMessage.new(double)
+      mock = MockMessage.new
       real = Message.new(double, double, double)
 
       expect(real.methods - mock.methods).to be_empty

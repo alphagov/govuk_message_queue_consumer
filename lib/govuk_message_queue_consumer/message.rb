@@ -5,10 +5,10 @@ module GovukMessageQueueConsumer
   class Message
     attr_accessor :delivery_info, :headers, :payload
 
-    def initialize(delivery_info, headers, payload)
-      @delivery_info = delivery_info
+    def initialize(payload, headers, delivery_info)
       @headers = headers
       @payload = payload
+      @delivery_info = delivery_info
     end
 
     def ack

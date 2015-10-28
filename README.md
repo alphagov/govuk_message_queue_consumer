@@ -28,6 +28,7 @@ notified of changes in content.
 - **Queue**: a queue listens to an exchange. In most cases the queue will listen
   to all messages, but it's also possible to listen to a specific pattern.
 - **Processor**: the specific class that processes a message.
+- **Routing key**: Restricts the messages that can get pushed onto a queue by the exchange.
 
 ## Technical documentation
 

@@ -11,17 +11,16 @@ module GovukMessageQueueConsumer
     # time to share the work evenly.
     NUMBER_OF_MESSAGES_TO_PREFETCH = 1
 
-    def initialize(queue_name:, exchange_name:, processor:, routing_key: '#')
+    def initialize(queue_name:, exchange_name:, processor:)
       @queue_name = queue_name
       @exchange_name = exchange_name
       @processor = processor
-      @routing_key = routing_key
     end
 
     def run
       queue.subscribe(block: true, manual_ack: true) do |delivery_info, headers, payload|
         begin
-          message = Message.new(delivery_info, headers, payload)
+          message = Message.new(payload, headers, delivery_info)
           processor_chain.process(message)
         rescue Exception => e
           $stderr.puts "rabbitmq_consumer: aborting due to unhandled exception in processor #{e.class}: #{e.message}"
@@ -40,7 +39,7 @@ module GovukMessageQueueConsumer
       @queue ||= begin
         channel.prefetch(NUMBER_OF_MESSAGES_TO_PREFETCH)
         queue = channel.queue(@queue_name, durable: true)
-        queue.bind(exchange, routing_key: @routing_key)
+        queue.bind(exchange, routing_key: routing_key)
         queue
       end
     end
@@ -59,6 +58,10 @@ module GovukMessageQueueConsumer
         new_connection.start
         new_connection
       end
+    end
+
+    def routing_key
+      @processor.class::ROUTING_KEY
     end
   end
 end
