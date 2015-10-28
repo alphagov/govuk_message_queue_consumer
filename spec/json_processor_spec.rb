@@ -4,7 +4,7 @@ describe JSONProcessor do
   describe "#process" do
     it "parses the payload string" do
       next_processor = double("next_processor", process: "ha")
-      message = MockMessage.new({delivery:'info'}, '{"some":"json"}', headers: { content_type: "application/json" })
+      message = MockMessage.new('{"some":"json"}', headers: { content_type: "application/json" })
 
       JSONProcessor.new(next_processor).process(message)
 
@@ -13,7 +13,7 @@ describe JSONProcessor do
     end
 
     it "discards messages with JSON errors" do
-      message = MockMessage.new({delivery:'info'}, '{"some" "json"}', headers: { content_type: "application/json" })
+      message = MockMessage.new('{"some" "json"}', headers: { content_type: "application/json" })
 
       JSONProcessor.new(double).process(message)
 
@@ -22,7 +22,7 @@ describe JSONProcessor do
 
     it "doesn't parse non-JSON message" do
       next_processor = double("next_processor", process: "ha")
-      message = MockMessage.new({delivery:'info'}, '<SomeXML></SomeXML>', headers: { content_type: "application/xml" })
+      message = MockMessage.new('<SomeXML></SomeXML>', headers: { content_type: "application/xml" })
 
       JSONProcessor.new(next_processor).process(message)
 

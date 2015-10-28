@@ -20,7 +20,7 @@ module GovukMessageQueueConsumer
     def run
       queue.subscribe(block: true, manual_ack: true) do |delivery_info, headers, payload|
         begin
-          message = Message.new(delivery_info, headers, payload)
+          message = Message.new(payload, headers, delivery_info)
           processor_chain.process(message)
         rescue Exception => e
           $stderr.puts "rabbitmq_consumer: aborting due to unhandled exception in processor #{e.class}: #{e.message}"
