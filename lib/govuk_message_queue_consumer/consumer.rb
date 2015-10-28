@@ -61,7 +61,7 @@ module GovukMessageQueueConsumer
     end
 
     def routing_key
-      @processor.routing_key
+      @processor.class::ROUTING_KEY
     end
   end
 end
