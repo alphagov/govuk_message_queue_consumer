@@ -1,8 +1,7 @@
 require_relative 'spec_helper'
 
 describe Consumer do
-  let(:message_values) { [:delivery_info1, :headers1, "message1_payload"] }
-  let(:queue) { instance_double('Bunny::Queue', bind: nil, subscribe: message_values) }
+  let(:queue) { instance_double('Bunny::Queue', bind: nil, subscribe: '') }
   let(:channel) { instance_double('Bunny::Channel', queue: queue, prefetch: nil, topic: nil) }
   let(:rabbitmq_connecton) { instance_double("Bunny::Session", start: nil, create_channel: channel) }
   let(:client_processor) { instance_double('Client::Processor') }
@@ -26,8 +25,8 @@ describe Consumer do
     end
 
     it "calls the heartbeat processor when subscribing to messages" do
-      expect(queue).to receive(:subscribe).and_yield(*message_values)
-      expect(Message).to receive(:new).with(*message_values)
+      expect(queue).to receive(:subscribe).and_yield(:delivery_info_object, :headers, "payload")
+      expect(Message).to receive(:new).with("payload", :headers, :delivery_info_object)
       expect_any_instance_of(HeartbeatProcessor).to receive(:process)
 
       Consumer.new(queue_name: "some-queue", exchange_name: "my-exchange", processor: client_processor).run
