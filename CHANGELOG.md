@@ -1,8 +1,13 @@
-# Unreleased
+# 2.0.0
 
+- README updates making it clearer how to use the gem
 - Use environment variables for RabbitMQ configuration
 - Use keyword arguments for the `Consumer` setup
-- Add `GovukMessageQueueConsumer::MockMessage` for easy testing.
+- Add rspec shared examples for testing a message processor
+- Add `GovukMessageQueueConsumer::MockMessage` for easy testing
+- Add `GovukMessageQueueConsumer::JSONProcessor` as an intermediate processor for JSON payloads
+- Add Airbrake notification for gem errors
+- Remove active_support dependency
 
 # 1.0.0
 
