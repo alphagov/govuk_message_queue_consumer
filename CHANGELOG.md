@@ -1,3 +1,7 @@
+# 2.0.1
+
+* Add support for Airbrake.
+
 # 2.0.0
 
 - README updates making it clearer how to use the gem
