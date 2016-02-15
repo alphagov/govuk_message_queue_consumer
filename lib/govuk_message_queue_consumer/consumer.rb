@@ -24,8 +24,9 @@ module GovukMessageQueueConsumer
           message = Message.new(payload, headers, delivery_info)
           processor_chain.process(message)
         rescue Exception => e
-          $stderr.puts "rabbitmq_consumer: aborting due to unhandled exception in processor #{e.class}: #{e.message}"
-          exit(1) # ensure rabbitmq requeues outstanding messages
+          Airbrake.notify_or_ignore(e) if defined?(Airbrake)
+          $stderr.puts "Uncaught exception in processor: \n\n #{e.class}: #{e.message}\n\n#{e.backtrace}"
+          exit(1) # Ensure rabbitmq requeues outstanding messages
         end
       end
     end
