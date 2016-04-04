@@ -11,7 +11,7 @@ describe Consumer do
     allow(Bunny).to receive(:new).and_return(rabbitmq_connecton)
   end
 
-  describe "running the consumer" do
+  describe "#run" do
     it "binds the queue to the all-routing key" do
       expect(queue).to receive(:bind).with(nil, { routing_key: "#" })
 
