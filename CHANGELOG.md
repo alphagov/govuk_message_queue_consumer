@@ -1,3 +1,7 @@
+# Unreleased
+
+- Add support for sending stats to Statsd
+
 # 2.0.1
 
 * Add support for Airbrake.

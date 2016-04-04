@@ -1,4 +1,5 @@
 require 'bunny'
+require_relative 'null_statsd'
 
 module GovukMessageQueueConsumer
   class Consumer
@@ -17,19 +18,24 @@ module GovukMessageQueueConsumer
     # @param exchange_name [String] Name of the exchange to bind to, for example `published_documents`
     # @param processor [Object] An object that responds to `process`
     # @param routing_key [String] The RabbitMQ routing key to bind the queue to
-    def initialize(queue_name:, exchange_name:, processor:, routing_key: '#')
+    # @param statsd_client [Statsd] An instance of the Statsd class
+    def initialize(queue_name:, exchange_name:, processor:, routing_key: '#', statsd_client: NullStatsd.new)
       @queue_name = queue_name
       @exchange_name = exchange_name
       @processor = processor
       @routing_key = routing_key
+      @statsd_client = statsd_client
     end
 
     def run
       queue.subscribe(block: true, manual_ack: true) do |delivery_info, headers, payload|
         begin
           message = Message.new(payload, headers, delivery_info)
+          @statsd_client.increment("#{@queue_name}.started")
           processor_chain.process(message)
+          @statsd_client.increment("#{@queue_name}.#{message.status}")
         rescue Exception => e
+          @statsd_client.increment("#{@queue_name}.uncaught_exception")
           Airbrake.notify_or_ignore(e) if defined?(Airbrake)
           $stderr.puts "Uncaught exception in processor: \n\n #{e.class}: #{e.message}\n\n#{e.backtrace.join("\n")}"
           exit(1) # Ensure rabbitmq requeues outstanding messages
