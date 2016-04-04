@@ -26,8 +26,7 @@ describe Consumer do
 
     it "calls the heartbeat processor when subscribing to messages" do
       expect(queue).to receive(:subscribe).and_yield(:delivery_info_object, :headers, "payload")
-      expect(Message).to receive(:new).with("payload", :headers, :delivery_info_object)
-      expect_any_instance_of(HeartbeatProcessor).to receive(:process)
+      expect_any_instance_of(HeartbeatProcessor).to receive(:process).with(kind_of(Message))
 
       Consumer.new(queue_name: "some-queue", exchange_name: "my-exchange", processor: client_processor).run
     end
