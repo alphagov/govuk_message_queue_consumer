@@ -11,6 +11,12 @@ module GovukMessageQueueConsumer
     # time to share the work evenly.
     NUMBER_OF_MESSAGES_TO_PREFETCH = 1
 
+    # Create a new consumer
+    #
+    # @param queue_name [String] Your queue name. This is specific to your application.
+    # @param exchange_name [String] Name of the exchange to bind to, for example `published_documents`
+    # @param processor [Object] An object that responds to `process`
+    # @param routing_key [String] The RabbitMQ routing key to bind the queue to
     def initialize(queue_name:, exchange_name:, processor:, routing_key: '#')
       @queue_name = queue_name
       @exchange_name = exchange_name

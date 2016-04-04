@@ -9,6 +9,8 @@ the content-items it receives, so that applications such as
 [email-alert-service](https://github.com/alphagov/email-alert-service) can be
 notified of changes in content.
 
+For detailed documentation, check out the [gem documentation on rubydoc.info](http://www.rubydoc.info/gems/govuk_message_queue_consumer/GovukMessageQueueConsumer/Consumer#initialize-instance_method).
+
 ## Nomenclature
 
 ![A graph showing the message flow](docs/graph.png)
@@ -69,6 +71,8 @@ namespace :message_queue do
   end
 end
 ```
+
+More options are [documented here](http://www.rubydoc.info/gems/govuk_message_queue_consumer/GovukMessageQueueConsumer/Consumer#initialize-instance_method).
 
 The consumer expects a number of environment variables to be present. On GOV.UK,
 these should be set up in puppet.
