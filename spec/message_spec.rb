@@ -10,17 +10,23 @@ describe Message do
     expect(mock_channel).to receive(:ack).with("a_tag")
 
     message.ack
+
+    expect(message.status).to eql(:acked)
   end
 
   it "retry sends a reject to the channel with requeue set" do
     expect(mock_channel).to receive(:reject).with("a_tag", true)
 
     message.retry
+
+    expect(message.status).to eql(:retried)
   end
 
   it "reject sends a reject to the channel without requeue set" do
     expect(mock_channel).to receive(:reject).with("a_tag", false)
 
     message.discard
+
+    expect(message.status).to eql(:discarded)
   end
 end
