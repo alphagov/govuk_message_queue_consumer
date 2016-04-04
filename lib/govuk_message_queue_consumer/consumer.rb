@@ -31,7 +31,7 @@ module GovukMessageQueueConsumer
           processor_chain.process(message)
         rescue Exception => e
           Airbrake.notify_or_ignore(e) if defined?(Airbrake)
-          $stderr.puts "Uncaught exception in processor: \n\n #{e.class}: #{e.message}\n\n#{e.backtrace}"
+          $stderr.puts "Uncaught exception in processor: \n\n #{e.class}: #{e.message}\n\n#{e.backtrace.join("\n")}"
           exit(1) # Ensure rabbitmq requeues outstanding messages
         end
       end
