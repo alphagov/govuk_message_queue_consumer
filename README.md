@@ -9,6 +9,8 @@ the content-items it receives, so that applications such as
 [email-alert-service](https://github.com/alphagov/email-alert-service) can be
 notified of changes in content.
 
+For detailed documentation, check out the [gem documentation on rubydoc.info](http://www.rubydoc.info/gems/govuk_message_queue_consumer/GovukMessageQueueConsumer/Consumer#initialize-instance_method).
+
 ## Nomenclature
 
 ![A graph showing the message flow](docs/graph.png)
@@ -70,6 +72,8 @@ namespace :message_queue do
 end
 ```
 
+More options are [documented here](http://www.rubydoc.info/gems/govuk_message_queue_consumer/GovukMessageQueueConsumer/Consumer#initialize-instance_method).
+
 The consumer expects a number of environment variables to be present. On GOV.UK,
 these should be set up in puppet.
 
@@ -127,6 +131,28 @@ class MyProcessor
     end
   end
 end
+```
+
+### Statsd integration
+
+You can pass a `statsd_client` to the `GovukMessageQueueConsumer::Consumer` initializer. The consumer will emit counters to statsd with these keys:
+
+- `your_queue_name.started` - message picked up from the your_queue_name
+- `your_queue_name.retried` - message has been retried
+- `your_queue_name.acked` - message has been processed and acked
+- `your_queue_name.discarded` - message has been discarded
+- `your_queue_name.uncaught_exception` - an uncaught exception occured during processing
+
+Remember to use a namespace for the `Statsd` client:
+
+```ruby
+statsd_client = Statsd.new("localhost")
+statsd_client.namespace = "govuk.app.my_app_name"
+
+GovukMessageQueueConsumer::Consumer.new(
+  statsd_client: statsd_client
+  # ... other setup code omitted
+).run
 ```
 
 ### Testing your processor
