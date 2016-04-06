@@ -53,7 +53,7 @@ Add the gem:
 
 ```ruby
 # Gemfile
-gem "govuk_message_queue_consumer", "~> 2.0.0"
+gem "govuk_message_queue_consumer", "~> 2.1"
 ```
 
 Add a rake task like the following example:
