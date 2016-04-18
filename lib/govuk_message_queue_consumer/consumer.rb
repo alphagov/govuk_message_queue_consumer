@@ -14,16 +14,15 @@ module GovukMessageQueueConsumer
 
     # Create a new consumer
     #
-    # @param queue_name [String] Your queue name. This is specific to your application.
     # @param exchange_name [String] Name of the exchange to bind to, for example `published_documents`
+    # @param queue_name [String] Your queue name. This is specific to your application,
+    #                            and should already exist and have a binding via puppet
     # @param processor [Object] An object that responds to `process`
-    # @param routing_key [String] The RabbitMQ routing key to bind the queue to
     # @param statsd_client [Statsd] An instance of the Statsd class
-    def initialize(queue_name:, exchange_name:, processor:, routing_key: '#', statsd_client: NullStatsd.new)
-      @queue_name = queue_name
+    def initialize(exchange_name:, queue_name:, processor:, statsd_client: NullStatsd.new)
       @exchange_name = exchange_name
+      @queue_name = queue_name
       @processor = processor
-      @routing_key = routing_key
       @statsd_client = statsd_client
     end
 
@@ -52,9 +51,7 @@ module GovukMessageQueueConsumer
     def queue
       @queue ||= begin
         channel.prefetch(NUMBER_OF_MESSAGES_TO_PREFETCH)
-        queue = channel.queue(@queue_name, durable: true)
-        queue.bind(exchange, routing_key: @routing_key)
-        queue
+        channel.queue(@queue_name, no_declare: true)
       end
     end
 

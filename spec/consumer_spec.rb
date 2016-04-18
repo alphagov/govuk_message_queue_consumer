@@ -7,24 +7,28 @@ describe Consumer do
   let(:client_processor) { instance_double('Client::Processor') }
 
   describe "#run" do
-    it "binds the queue to the all-routing key" do
-      queue = create_stubbed_queue
 
-      expect(queue).to receive(:bind).with(nil, { routing_key: "#" })
+    it "doesn't create the queue" do
+      stubs = create_stubs
+      channel = stubs.channel
+
+      expect(channel).to receive(:queue).with("some-queue", { no_declare: true })
 
       Consumer.new(queue_name: "some-queue", exchange_name: "my-exchange", processor: client_processor).run
     end
 
-    it "binds the queue to a custom routing key" do
-      queue = create_stubbed_queue
+    it "doesn't bind the queue" do
+      stubs = create_stubs
+      queue = stubs.queue
 
-      expect(queue).to receive(:bind).with(nil, { routing_key: "*.major" })
+      expect(queue).not_to receive(:bind)
 
-      Consumer.new(queue_name: "some-queue", exchange_name: "my-exchange", processor: client_processor, routing_key: "*.major").run
+      Consumer.new(queue_name: "some-queue", exchange_name: "my-exchange", processor: client_processor).run
     end
 
     it "calls the heartbeat processor when subscribing to messages" do
-      queue = create_stubbed_queue
+      stubs = create_stubs
+      queue = stubs.queue
 
       expect(queue).to receive(:subscribe).and_yield(:delivery_info_object, :headers, "payload")
 
