@@ -1,5 +1,3 @@
-require 'json'
-
 module GovukMessageQueueConsumer
   # Client code will receive an instance of this
   class Message

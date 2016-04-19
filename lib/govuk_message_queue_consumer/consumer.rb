@@ -1,6 +1,3 @@
-require 'bunny'
-require_relative 'null_statsd'
-
 module GovukMessageQueueConsumer
   class Consumer
     # Only fetch one message at a time on the channel.
@@ -18,15 +15,21 @@ module GovukMessageQueueConsumer
     # @param queue_name [String] Your queue name. This is specific to your application,
     #                            and should already exist and have a binding via puppet
     # @param processor [Object] An object that responds to `process`
+    # @param rabbitmq_connection [Object] A Bunny connection object derived from `Bunny.new`
     # @param statsd_client [Statsd] An instance of the Statsd class
-    def initialize(exchange_name:, queue_name:, processor:, statsd_client: NullStatsd.new)
+    # @param logger [Object] A Logger object for emitting errors (to stderr by default)
+    def initialize(exchange_name:, queue_name:, processor:, rabbitmq_connection: Consumer.default_connection_from_env, statsd_client: NullStatsd.new, logger: Logger.new(STDERR))
       @exchange_name = exchange_name
       @queue_name = queue_name
       @processor = processor
+      @rabbitmq_connection = rabbitmq_connection
       @statsd_client = statsd_client
+      @logger = logger
     end
 
     def run
+      @rabbitmq_connection.start
+
       queue.subscribe(block: true, manual_ack: true) do |delivery_info, headers, payload|
         begin
           message = Message.new(payload, headers, delivery_info)
@@ -36,13 +39,18 @@ module GovukMessageQueueConsumer
         rescue Exception => e
           @statsd_client.increment("#{@queue_name}.uncaught_exception")
           Airbrake.notify_or_ignore(e) if defined?(Airbrake)
-          $stderr.puts "Uncaught exception in processor: \n\n #{e.class}: #{e.message}\n\n#{e.backtrace.join("\n")}"
+          @logger.error "Uncaught exception in processor: \n\n #{e.class}: #{e.message}\n\n#{e.backtrace.join("\n")}"
           exit(1) # Ensure rabbitmq requeues outstanding messages
         end
       end
     end
 
   private
+
+    class NullStatsd
+      def increment(_key)
+      end
+    end
 
     def processor_chain
       @processor_chain ||= HeartbeatProcessor.new(JSONProcessor.new(@processor))
@@ -60,15 +68,11 @@ module GovukMessageQueueConsumer
     end
 
     def channel
-      @channel ||= connection.create_channel
+      @channel ||= @rabbitmq_connection.create_channel
     end
 
-    def connection
-      @connection ||= begin
-        new_connection = Bunny.new(RabbitMQConfig.new.from_environment)
-        new_connection.start
-        new_connection
-      end
+    def self.default_connection_from_env
+      Bunny.new(GovukMessageQueueConsumer::RabbitMQConfig.from_environment(ENV))
     end
   end
 end
