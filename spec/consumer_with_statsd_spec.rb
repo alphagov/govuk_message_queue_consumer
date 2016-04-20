@@ -18,7 +18,7 @@ describe Consumer do
         "message_payload"
       )
 
-      Consumer.new(queue_name: "some-queue", exchange_name: "my-exchange", processor: double, rabbitmq_connection: stubs.connection, statsd_client: statsd_client, logger: logger).run
+      Consumer.new(queue_name: "some-queue", processor: double, rabbitmq_connection: stubs.connection, statsd_client: statsd_client, logger: logger).run
 
       expect(statsd_client.incremented_keys).to eql(['some-queue.started', 'some-queue.discarded'])
     end
@@ -39,7 +39,7 @@ describe Consumer do
       expect(logger).to receive(:error)
 
       expect {
-        Consumer.new(queue_name: "some-queue", exchange_name: "my-exchange", processor: processor, rabbitmq_connection: stubs.connection, statsd_client: statsd_client, logger: logger).run
+        Consumer.new(queue_name: "some-queue", processor: processor, rabbitmq_connection: stubs.connection, statsd_client: statsd_client, logger: logger).run
       }.to raise_error(SystemExit)
 
       expect(statsd_client.incremented_keys).to eql(['some-queue.started', 'some-queue.uncaught_exception'])
