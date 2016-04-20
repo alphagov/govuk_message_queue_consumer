@@ -13,4 +13,5 @@ end
 
 RSpec.configure do |c|
   c.include TestHelpers
+  c.order = 'random'
 end

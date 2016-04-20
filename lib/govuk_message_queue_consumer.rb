@@ -1,3 +1,6 @@
+require 'bunny'
+require 'json'
+
 require 'govuk_message_queue_consumer/version'
 require 'govuk_message_queue_consumer/heartbeat_processor'
 require 'govuk_message_queue_consumer/json_processor'
