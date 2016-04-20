@@ -11,15 +11,13 @@ module GovukMessageQueueConsumer
 
     # Create a new consumer
     #
-    # @param exchange_name [String] Name of the exchange to bind to, for example `published_documents`
     # @param queue_name [String] Your queue name. This is specific to your application,
     #                            and should already exist and have a binding via puppet
     # @param processor [Object] An object that responds to `process`
     # @param rabbitmq_connection [Object] A Bunny connection object derived from `Bunny.new`
     # @param statsd_client [Statsd] An instance of the Statsd class
     # @param logger [Object] A Logger object for emitting errors (to stderr by default)
-    def initialize(exchange_name:, queue_name:, processor:, rabbitmq_connection: Consumer.default_connection_from_env, statsd_client: NullStatsd.new, logger: Logger.new(STDERR))
-      @exchange_name = exchange_name
+    def initialize(queue_name:, processor:, rabbitmq_connection: Consumer.default_connection_from_env, statsd_client: NullStatsd.new, logger: Logger.new(STDERR))
       @queue_name = queue_name
       @processor = processor
       @rabbitmq_connection = rabbitmq_connection
@@ -61,10 +59,6 @@ module GovukMessageQueueConsumer
         channel.prefetch(NUMBER_OF_MESSAGES_TO_PREFETCH)
         channel.queue(@queue_name, no_declare: true)
       end
-    end
-
-    def exchange
-      @exchange ||= channel.topic(@exchange_name, passive: true)
     end
 
     def channel

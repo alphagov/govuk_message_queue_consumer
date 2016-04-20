@@ -64,7 +64,6 @@ namespace :message_queue do
   desc "Run worker to consume messages from rabbitmq"
   task consumer: :environment do
     GovukMessageQueueConsumer::Consumer.new(
-      exchange_name: "some-exchange",
       queue_name: "some-queue",
       processor: MyProcessor.new,
     ).run

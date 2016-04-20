@@ -15,7 +15,7 @@ describe Consumer do
 
       expect(channel).to receive(:queue).with("some-queue", { no_declare: true })
 
-      Consumer.new(queue_name: "some-queue", exchange_name: "my-exchange", processor: client_processor, rabbitmq_connection: stubs.connection, logger: logger).run
+      Consumer.new(queue_name: "some-queue", processor: client_processor, rabbitmq_connection: stubs.connection, logger: logger).run
     end
 
     it "doesn't bind the queue" do
@@ -24,7 +24,7 @@ describe Consumer do
 
       expect(queue).not_to receive(:bind)
 
-      Consumer.new(queue_name: "some-queue", exchange_name: "my-exchange", processor: client_processor, rabbitmq_connection: stubs.connection, logger: logger).run
+      Consumer.new(queue_name: "some-queue", processor: client_processor, rabbitmq_connection: stubs.connection, logger: logger).run
     end
 
     it "calls the heartbeat processor when subscribing to messages" do
@@ -35,7 +35,7 @@ describe Consumer do
 
       expect_any_instance_of(HeartbeatProcessor).to receive(:process).with(kind_of(Message))
 
-      Consumer.new(queue_name: "some-queue", exchange_name: "my-exchange", processor: client_processor, rabbitmq_connection: stubs.connection, logger: logger).run
+      Consumer.new(queue_name: "some-queue", processor: client_processor, rabbitmq_connection: stubs.connection, logger: logger).run
     end
   end
 end
