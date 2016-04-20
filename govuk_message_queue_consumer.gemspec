@@ -13,8 +13,7 @@ Gem::Specification.new do |s|
   s.homepage = "https://github.com/alphagov/govuk_message_queue_consumer"
   s.email = ["govuk-dev@digital.cabinet-office.gov.uk"]
 
-  s.files = Dir.glob("lib/**/*") + %w{README.md Rakefile}
-  s.test_files = Dir["spec/*"]
+  s.files = Dir.glob("lib/**/*") + %w{LICENCE README.md CHANGELOG.md}
   s.require_path = 'lib'
 
   s.add_dependency 'bunny', '~> 2.2.0'
