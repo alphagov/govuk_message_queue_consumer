@@ -1,3 +1,10 @@
+# 3.0.0
+
+- Updated README to conform changes on [PR #32](https://github.com/alphagov/govuk_message_queue_consumer/pull/32)
+- Remove `exchange_name` parameter [PR #34](https://github.com/alphagov/govuk_message_queue_consumer/pull/34)
+- Don't build test files in the gem [PR #33](https://github.com/alphagov/govuk_message_queue_consumer/pull/33)
+- Prevent consumer from creating rabbitmq queues or bindings [PR #32](https://github.com/alphagov/govuk_message_queue_consumer/pull/32)
+
 # 2.1.0
 
 - Add support for sending stats to Statsd
