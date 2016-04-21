@@ -1,5 +1,5 @@
-require_relative 'spec_helper'
-require_relative '../lib/govuk_message_queue_consumer/test_helpers/mock_message'
+require_relative '../spec_helper'
+require 'govuk_message_queue_consumer/test_helpers'
 
 describe GovukMessageQueueConsumer::MockMessage do
   describe '#methods' do
