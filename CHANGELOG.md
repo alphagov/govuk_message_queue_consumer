@@ -1,3 +1,7 @@
+# 3.0.1
+
+- Fix a bug that caused the test-helpers to error ([#34](https://github.com/alphagov/govuk_message_queue_consumer/pull/34))
+
 # 3.0.0
 
 - Updated README to conform changes on [PR #32](https://github.com/alphagov/govuk_message_queue_consumer/pull/32)
