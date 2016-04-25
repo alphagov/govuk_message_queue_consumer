@@ -11,6 +11,13 @@ notified of changes in content.
 
 For detailed documentation, check out the [gem documentation on rubydoc.info](http://www.rubydoc.info/gems/govuk_message_queue_consumer/GovukMessageQueueConsumer/Consumer#initialize-instance_method).
 
+
+**[Apps using this gem](https://github.com/search?utf8=%E2%9C%93&q=govuk_message_queue_consumer+user%3Aalphagov+filename%3AGemfile&type=Code&ref=searchresults)** include:
+
+- [Panopticon](https://github.com/alphagov/panopticon)
+- [Rummager](https://github.com/alphagov/rummager)
+
+
 ## Nomenclature
 
 ![A graph showing the message flow](docs/graph.png)
