@@ -11,12 +11,7 @@ notified of changes in content.
 
 For detailed documentation, check out the [gem documentation on rubydoc.info](http://www.rubydoc.info/gems/govuk_message_queue_consumer/GovukMessageQueueConsumer/Consumer#initialize-instance_method).
 
-
-**[Apps using this gem](https://github.com/search?utf8=%E2%9C%93&q=govuk_message_queue_consumer+user%3Aalphagov+filename%3AGemfile&type=Code&ref=searchresults)** include:
-
-- [Panopticon](https://github.com/alphagov/panopticon)
-- [Rummager](https://github.com/alphagov/rummager)
-
+This gem is used by [Rummager](https://github.com/alphagov/rummager).
 
 ## Nomenclature
 
@@ -28,8 +23,7 @@ For detailed documentation, check out the [gem documentation on rubydoc.info](ht
   _headers_. In the case of the publishing-api the payload is a
   [content item](https://github.com/alphagov/govuk-content-schemas).
 - **Consumer**: the app that receives the messages and does something with them.
-  On GOV.UK, these could be [email-alert-service](https://github.com/alphagov/email-alert-service)
-  and [content-register](https://github.com/alphagov/content-register).
+  On GOV.UK, this is [email-alert-service](https://github.com/alphagov/email-alert-service).
 - **Exchange**: in RabbitMQ's model, producers send messages to an _exchange_.
   Consumers can create a Queue that listens to the exchange, instead of
   subscribing to the exchange directly. This is done so that the queue can buffer
@@ -53,8 +47,6 @@ incremented.
 - The [Bunny](https://github.com/ruby-amqp/bunny) gem: to interact with RabbitMQ.
 
 ## Usage
-
-For an example on how to implement a message queue consumer, see [alphagov/panopticon#307](https://github.com/alphagov/panopticon/pull/307/files).
 
 Add the gem:
 
