@@ -1,3 +1,7 @@
+# 3.0.2
+
+- Republish 3.0.1 to correct checksum.
+
 # 3.0.1
 
 - Fix a bug that caused the test-helpers to error ([#34](https://github.com/alphagov/govuk_message_queue_consumer/pull/34))
