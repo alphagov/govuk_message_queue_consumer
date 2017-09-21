@@ -201,7 +201,7 @@ bundle exec rake spec
 - [Bunny](https://github.com/ruby-amqp/bunny) is the RabbitMQ client we use.
 - [The Bunny Guides](http://rubybunny.info/articles/guides.html) explain all
   AMQP concepts really well.
-- The [Opsmanual](https://github.gds/pages/gds/opsmanual/2nd-line/nagios.html?highlight=rabbitmq#rabbitmq-checks)
+- The [Developer Docs](https://docs.publishing.service.gov.uk/manual/rabbitmq.html)
   documents the usage of "heartbeat" messages, which this gem also supports.
 
 ## Licence
