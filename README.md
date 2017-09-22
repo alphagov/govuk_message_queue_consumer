@@ -38,9 +38,8 @@ This is a ruby gem that deals with the boiler plate code of communicating with
 [RabbitMQ](https://www.rabbitmq.com/). The user of this gem is left the task of
 supplying the configuration and a class that processes messages.
 
-This gem is auto-released with [gem_publisher](https://github.com/alphagov/gem_publisher).
-To release a new version, simply raise a pull request with the version number
-incremented.
+The gem is automatically released by Jenkins. To release a new version, raise a
+pull request with the version number incremented.
 
 ### Dependencies
 
