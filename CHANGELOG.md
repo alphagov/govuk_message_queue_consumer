@@ -1,3 +1,5 @@
+# 3.1.0
+
 - Change Airbrake to GovukError
 
 # 3.0.2
