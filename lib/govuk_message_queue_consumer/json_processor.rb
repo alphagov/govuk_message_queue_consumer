@@ -13,7 +13,7 @@ module GovukMessageQueueConsumer
 
       @next_processor.process(message)
     rescue JSON::ParserError => e
-      Airbrake.notify_or_ignore(e) if defined?(Airbrake)
+      GovukError.notify(e) if defined?(GovukError)
       message.discard
     end
   end

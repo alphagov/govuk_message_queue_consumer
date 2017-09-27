@@ -1,3 +1,5 @@
+- Change Airbrake to GovukError
+
 # 3.0.2
 
 - Republish 3.0.1 to correct checksum.
