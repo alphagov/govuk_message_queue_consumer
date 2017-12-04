@@ -48,6 +48,9 @@ module GovukMessageQueueConsumer
     class NullStatsd
       def increment(_key)
       end
+
+      def count(_key, _volume)
+      end
     end
 
     def processor_chain
@@ -56,7 +59,7 @@ module GovukMessageQueueConsumer
 
     def queue
       @queue ||= begin
-        channel.prefetch(NUMBER_OF_MESSAGES_TO_PREFETCH)
+        channel.prefetch(self.class::NUMBER_OF_MESSAGES_TO_PREFETCH)
         channel.queue(@queue_name, no_declare: true)
       end
     end
