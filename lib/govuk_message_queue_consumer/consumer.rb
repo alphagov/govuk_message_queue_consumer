@@ -1,5 +1,6 @@
 module GovukMessageQueueConsumer
   class Consumer
+    HANDLE_BATCHES = false
     # Only fetch one message at a time on the channel.
     #
     # By default, queues will grab messages eagerly, which reduces latency.
@@ -32,7 +33,7 @@ module GovukMessageQueueConsumer
         begin
           message = Message.new(payload, headers, delivery_info)
           @statsd_client.increment("#{@queue_name}.started")
-          processor_chain.process(message)
+          message_consumer.process(message)
           @statsd_client.increment("#{@queue_name}.#{message.status}")
         rescue Exception => e
           @statsd_client.increment("#{@queue_name}.uncaught_exception")
@@ -53,8 +54,15 @@ module GovukMessageQueueConsumer
       end
     end
 
-    def processor_chain
-      @processor_chain ||= HeartbeatProcessor.new(JSONProcessor.new(@processor))
+    def message_consumer
+      @message_consumer ||= MessageConsumer.new(
+        processors: [
+          HeartbeatProcessor.new,
+          JSONProcessor.new,
+          @processor,
+        ],
+        handle_batches: self.class::HANDLE_BATCHES,
+      )
     end
 
     def queue

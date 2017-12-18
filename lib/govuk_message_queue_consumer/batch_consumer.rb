@@ -1,5 +1,6 @@
 module GovukMessageQueueConsumer
   class BatchConsumer < Consumer
+    HANDLE_BATCHES = true
     DEFAULT_BATCH_SIZE = 100
     DEFAULT_BATCH_TIMEOUT = 5
     # we want to increase the prefetch size here to the batch size
@@ -40,7 +41,7 @@ module GovukMessageQueueConsumer
       if messages.any?
         @statsd_client.count("#{@queue_name}.started", messages.count)
         @statsd_client.increment("#{@queue_name}.batch_started")
-        processor_chain.process(messages)
+        message_consumer.process(messages)
 
         status_counts = messages.map(&:status).each_with_object(Hash.new(0)) { |s, h| h[s] += 1 }
         status_counts.each do |status, count|
