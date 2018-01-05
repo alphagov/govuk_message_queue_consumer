@@ -6,17 +6,13 @@ describe HeartbeatProcessor do
   let(:standard_headers) { instance_double("Standard Headers", :content_type => nil) }
   let(:standard_message) { instance_double("Standard Message", :headers => standard_headers, :ack => nil) }
 
-  let(:next_processor) { instance_double("Client::Processor") }
-
   subject {
-    HeartbeatProcessor.new(next_processor)
+    HeartbeatProcessor.new
   }
 
   context "for a heartbeat message" do
     it "doesn't call the next processor" do
-      expect(next_processor).not_to receive(:process)
-
-      subject.process(heartbeat_message)
+      expect(subject.process(heartbeat_message)).to be_falsy
     end
 
     it "acks the message" do
@@ -28,14 +24,11 @@ describe HeartbeatProcessor do
 
   context "for a content message" do
     it "calls the next processor" do
-      expect(next_processor).to receive(:process).with(standard_message)
-
-      subject.process(standard_message)
+      expect(subject.process(standard_message)).to be_truthy
     end
 
     it "doesn't ack the message" do
       expect(standard_message).not_to receive(:ack)
-      expect(next_processor).to receive(:process)
 
       subject.process(standard_message)
     end
