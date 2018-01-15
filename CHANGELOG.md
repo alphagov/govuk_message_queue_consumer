@@ -1,3 +1,8 @@
+# 3.2.0
+
+- Add batch process capabilities
+- Refactor `process_chain` to `message_consumer` 
+
 # 3.1.0
 
 - Change Airbrake to GovukError
