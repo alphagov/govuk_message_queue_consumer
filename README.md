@@ -1,4 +1,5 @@
 # GOV.UK Message Queue Consumer
+[![Gem Version](https://badge.fury.io/rb/govuk_message_queue_consumer.svg)](https://badge.fury.io/rb/govuk_message_queue_consumer)
 
 Standardises the way GOV.UK consumes messages from [RabbitMQ](https://www.rabbitmq.com/).
 RabbitMQ is a messaging framework that allows applications to broadcast messages
@@ -47,12 +48,7 @@ pull request with the version number incremented.
 
 ## Usage
 
-Add the gem:
-
-```ruby
-# Gemfile
-gem "govuk_message_queue_consumer", "~> 2.1"
-```
+[Add the gem to your Gemfile](https://rubygems.org/gems/govuk_message_queue_consumer).
 
 Add a rake task like the following example:
 
