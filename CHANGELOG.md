@@ -1,3 +1,7 @@
+# 3.2.1
+
+- Upgrade [bunny](http://rubybunny.info/) to 2.11
+
 # 3.2.0
 
 - Add batch process capabilities
@@ -15,7 +19,7 @@
 
 - Fix a bug that caused the test-helpers to error ([#34](https://github.com/alphagov/govuk_message_queue_consumer/pull/34))
 
-# 3.0.0
+# 3.0.0
 
 - Updated README to conform changes on [PR #32](https://github.com/alphagov/govuk_message_queue_consumer/pull/32)
 - Remove `exchange_name` parameter [PR #34](https://github.com/alphagov/govuk_message_queue_consumer/pull/34)
