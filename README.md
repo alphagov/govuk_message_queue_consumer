@@ -12,7 +12,11 @@ notified of changes in content.
 
 For detailed documentation, check out the [gem documentation on rubydoc.info](http://www.rubydoc.info/gems/govuk_message_queue_consumer/GovukMessageQueueConsumer/Consumer#initialize-instance_method).
 
-This gem is used by [Rummager](https://github.com/alphagov/rummager).
+This gem is used by:
+
+- [Cache clearing service](https://github.com/alphagov/cache-clearing-service).
+- [Content performance manager](https://github.com/alphagov/content-performance-manager).
+- [Rummager](https://github.com/alphagov/rummager).
 
 ## Nomenclature
 
