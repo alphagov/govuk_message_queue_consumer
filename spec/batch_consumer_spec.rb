@@ -66,7 +66,7 @@ describe BatchConsumer do
       expect(processor).to receive(:process).with([instance_of(Message)]).twice
       with_consumer do
         @queue.publish(json: 'message')
-        sleep 0.2
+        sleep 0.4
         @queue.publish(json: 'message')
       end
     end
