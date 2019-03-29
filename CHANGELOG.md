@@ -1,3 +1,7 @@
+# 3.3.0
+
+- Add access to `payload`, `delivery_info`, `header` in `GovukMessageQueueConsumer::MockMessage` for testing.
+
 # 3.2.1
 
 - Upgrade [bunny](http://rubybunny.info/) to 2.11
