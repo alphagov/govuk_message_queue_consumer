@@ -1,6 +1,6 @@
 module GovukMessageQueueConsumer
   class MockMessage < Message
-    attr_reader :acked, :retried, :discarded
+    attr_reader :acked, :retried, :discarded, :payload, :header, :delivery_info
 
     alias :acked? :acked
     alias :discarded? :discarded
