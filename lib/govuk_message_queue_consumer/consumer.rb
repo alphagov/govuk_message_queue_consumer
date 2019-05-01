@@ -26,10 +26,11 @@ module GovukMessageQueueConsumer
       @logger = logger
     end
 
-    def run
+    def run(subscribe_opts: {})
       @rabbitmq_connection.start
 
-      queue.subscribe(block: true, manual_ack: true) do |delivery_info, headers, payload|
+      subscribe_opts = { block: true, manual_ack: true}.merge(subscribe_opts)
+      queue.subscribe(subscribe_opts) do |delivery_info, headers, payload|
         begin
           message = Message.new(payload, headers, delivery_info)
           @statsd_client.increment("#{@queue_name}.started")
