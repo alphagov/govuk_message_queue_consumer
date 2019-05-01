@@ -1,3 +1,7 @@
+# Unreleased
+
+- Add ability to override default consumer subscribe options with `subscribe_opts` parameter
+
 # 3.3.0
 
 - Add access to `payload`, `delivery_info`, `header` in `GovukMessageQueueConsumer::MockMessage` for testing.
