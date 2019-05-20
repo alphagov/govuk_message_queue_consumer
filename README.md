@@ -15,7 +15,7 @@ For detailed documentation, check out the [gem documentation on rubydoc.info](ht
 This gem is used by:
 
 - [Cache clearing service](https://github.com/alphagov/cache-clearing-service).
-- [Content performance manager](https://github.com/alphagov/content-performance-manager).
+- [Content Data API](https://github.com/alphagov/content-data-api).
 - [Rummager](https://github.com/alphagov/rummager).
 
 ## Nomenclature
