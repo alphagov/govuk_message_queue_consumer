@@ -16,6 +16,7 @@ This gem is used by:
 
 - [Cache clearing service](https://github.com/alphagov/cache-clearing-service).
 - [Content Data API](https://github.com/alphagov/content-data-api).
+- [Email Alert Service](https://github.com/alphagov/email-alert-service/).
 - [Rummager](https://github.com/alphagov/rummager).
 
 ## Nomenclature
