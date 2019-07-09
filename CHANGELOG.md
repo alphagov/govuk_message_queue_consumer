@@ -1,3 +1,7 @@
+# Unreleased
+
+- Stop reporting `SignalExceptions` to `GovukError`.
+
 # 3.4.0
 
 - Add ability to override default consumer subscribe options with `subscribe_opts` parameter
