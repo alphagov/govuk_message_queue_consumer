@@ -17,26 +17,11 @@ This gem is used by:
 - [Cache clearing service](https://github.com/alphagov/cache-clearing-service).
 - [Content Data API](https://github.com/alphagov/content-data-api).
 - [Email Alert Service](https://github.com/alphagov/email-alert-service/).
-- [Rummager](https://github.com/alphagov/rummager).
+- [Search API](https://github.com/alphagov/search-api).
 
-## Nomenclature
+## Overview of RabbitMQ
 
-![A graph showing the message flow](docs/graph.png)
-
-- **Producer**: an application that sends messages RabbitMQ. On GOV.UK this could
-  be [publishing-api](https://github.com/alphagov/publishing-api).
-- **Message**: an object sent over RabbitMQ. It consists of a _payload_ and
-  _headers_. In the case of the publishing-api the payload is a
-  [content item](https://github.com/alphagov/govuk-content-schemas).
-- **Consumer**: the app that receives the messages and does something with them.
-  On GOV.UK, this is [email-alert-service](https://github.com/alphagov/email-alert-service).
-- **Exchange**: in RabbitMQ's model, producers send messages to an _exchange_.
-  Consumers can create a Queue that listens to the exchange, instead of
-  subscribing to the exchange directly. This is done so that the queue can buffer
-  any messages and we can make sure all messages get delivered to the consumer.
-- **Queue**: a queue listens to an exchange. In most cases the queue will listen
-  to all messages, but it's also possible to listen to a specific pattern.
-- **Processor**: the specific class that processes a message.
+To see an overview of RabbitMQ and how we use it, see [here](https://docs.publishing.service.gov.uk/manual/rabbitmq.html#overview).
 
 ## Technical documentation
 
