@@ -6,7 +6,7 @@ describe HeartbeatProcessor do
   let(:standard_headers) { instance_double("Standard Headers", content_type: nil) }
   let(:standard_message) { instance_double("Standard Message", headers: standard_headers, ack: nil) }
 
-  context "for a heartbeat message" do
+  context "when receiving heartbeat message" do
     it "doesn't call the next processor" do
       expect(subject.process(heartbeat_message)).to be_falsy
     end
@@ -18,7 +18,7 @@ describe HeartbeatProcessor do
     end
   end
 
-  context "for a content message" do
+  context "when receiving a content message" do
     it "calls the next processor" do
       expect(subject.process(standard_message)).to be_truthy
     end
