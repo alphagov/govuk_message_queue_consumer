@@ -31,8 +31,10 @@ describe Consumer do
       queue = stubs.queue
 
       expect(queue).to receive(:subscribe).and_yield(:delivery_info_object, :headers, "payload")
+      heartbeat_processor_stub = instance_double(HeartbeatProcessor)
+      allow(HeartbeatProcessor).to receive(:new).and_return(heartbeat_processor_stub)
 
-      expect_any_instance_of(HeartbeatProcessor).to receive(:process).with(kind_of(Message))
+      expect(heartbeat_processor_stub).to receive(:process).with(kind_of(Message))
 
       described_class.new(queue_name: "some-queue", processor: client_processor, rabbitmq_connection: stubs.connection, logger: logger).run
     end
