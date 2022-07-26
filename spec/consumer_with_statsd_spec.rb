@@ -11,10 +11,23 @@ describe Consumer do
                     delivery_tag: nil)
   end
   let(:headers) { instance_double("Bunny::MessageProperties", content_type: "application/json") }
+  let(:statsd_client_mock) do
+    Class.new do
+      attr_reader :incremented_keys
+
+      def initialize
+        @incremented_keys = []
+      end
+
+      def increment(key)
+        @incremented_keys << key
+      end
+    end
+  end
 
   describe "#run" do
     it "increments the counters on the statsd client" do
-      statsd_client = StatsdClientMock.new
+      statsd_client = statsd_client_mock.new
       stubs = create_bunny_stubs
       queue = stubs.queue
 
@@ -33,7 +46,7 @@ describe Consumer do
     end
 
     it "increments the uncaught_exception counter for uncaught exceptions" do
-      statsd_client = StatsdClientMock.new
+      statsd_client = statsd_client_mock.new
       stubs = create_bunny_stubs
       queue = stubs.queue
 
@@ -48,18 +61,6 @@ describe Consumer do
       }.to raise_error(SystemExit)
 
       expect(statsd_client.incremented_keys).to eql(["some-queue.started", "some-queue.uncaught_exception"])
-    end
-  end
-
-  class StatsdClientMock
-    attr_reader :incremented_keys
-
-    def initialize
-      @incremented_keys = []
-    end
-
-    def increment(key)
-      @incremented_keys << key
     end
   end
 end
