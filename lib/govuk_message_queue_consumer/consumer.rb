@@ -10,6 +10,10 @@ module GovukMessageQueueConsumer
     # time to share the work evenly.
     NUMBER_OF_MESSAGES_TO_PREFETCH = 1
 
+    def self.default_connection_from_env
+      Bunny.new(GovukMessageQueueConsumer::RabbitMQConfig.from_environment(ENV))
+    end
+
     # Create a new consumer
     #
     # @param queue_name [String] Your queue name. This is specific to your application,
@@ -74,10 +78,6 @@ module GovukMessageQueueConsumer
 
     def channel
       @channel ||= @rabbitmq_connection.create_channel
-    end
-
-    def self.default_connection_from_env
-      Bunny.new(GovukMessageQueueConsumer::RabbitMQConfig.from_environment(ENV))
     end
   end
 end
