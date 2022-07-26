@@ -1,7 +1,7 @@
 require "spec_helper"
 require "govuk_message_queue_consumer/test_helpers"
 
-describe GovukMessageQueueConsumer::MockMessage do
+describe GovukMessageQueueConsumer::MockMessage do # rubocop:disable RSpec/FilePath
   describe "#methods" do
     it "implements the same methods as Message" do
       mock = described_class.new
