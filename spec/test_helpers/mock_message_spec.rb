@@ -1,8 +1,8 @@
-require_relative '../spec_helper'
-require 'govuk_message_queue_consumer/test_helpers'
+require_relative "../spec_helper"
+require "govuk_message_queue_consumer/test_helpers"
 
 describe GovukMessageQueueConsumer::MockMessage do
-  describe '#methods' do
+  describe "#methods" do
     it "implements the same methods as Message" do
       mock = MockMessage.new
       real = Message.new(double, double, double)
@@ -11,7 +11,7 @@ describe GovukMessageQueueConsumer::MockMessage do
     end
   end
 
-  describe '#ack' do
+  describe "#ack" do
     it "marks the message as acked" do
       message = MockMessage.new
 
@@ -21,7 +21,7 @@ describe GovukMessageQueueConsumer::MockMessage do
     end
   end
 
-  describe '#retry' do
+  describe "#retry" do
     it "marks the message as retried" do
       message = MockMessage.new
 
@@ -31,7 +31,7 @@ describe GovukMessageQueueConsumer::MockMessage do
     end
   end
 
-  describe '#discard' do
+  describe "#discard" do
     it "marks the message as discarded" do
       message = MockMessage.new
 

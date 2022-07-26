@@ -1,10 +1,10 @@
-require_relative 'spec_helper'
-require_relative 'support/queue_helpers'
+require_relative "spec_helper"
+require_relative "support/queue_helpers"
 
 describe Consumer do
   include QueueHelpers
 
-  let(:logger) { instance_double('Logger') }
+  let(:logger) { instance_double("Logger") }
 
   describe "#run" do
     it "increments the counters on the statsd client" do
@@ -14,13 +14,13 @@ describe Consumer do
 
       expect(queue).to receive(:subscribe).and_yield(
         double(:delivery_info, channel: double(:channel, reject: double), delivery_tag: double),
-        double(:headers, content_type: 'application/json'),
-        "message_payload"
+        double(:headers, content_type: "application/json"),
+        "message_payload",
       )
 
-      Consumer.new(queue_name: "some-queue", processor: double, rabbitmq_connection: stubs.connection, statsd_client: statsd_client, logger: logger).run
+      described_class.new(queue_name: "some-queue", processor: double, rabbitmq_connection: stubs.connection, statsd_client: statsd_client, logger: logger).run
 
-      expect(statsd_client.incremented_keys).to eql(['some-queue.started', 'some-queue.discarded'])
+      expect(statsd_client.incremented_keys).to eql(["some-queue.started", "some-queue.discarded"])
     end
 
     it "increments the uncaught_exception counter for uncaught exceptions" do
@@ -30,8 +30,8 @@ describe Consumer do
 
       expect(queue).to receive(:subscribe).and_yield(
         double(:delivery_info, channel: double(:channel, reject: double), delivery_tag: double),
-        double(:headers, content_type: 'application/json'),
-        {}.to_json
+        double(:headers, content_type: "application/json"),
+        {}.to_json,
       )
 
       processor = double
@@ -39,15 +39,16 @@ describe Consumer do
       expect(logger).to receive(:error)
 
       expect {
-        Consumer.new(queue_name: "some-queue", processor: processor, rabbitmq_connection: stubs.connection, statsd_client: statsd_client, logger: logger).run
+        described_class.new(queue_name: "some-queue", processor: processor, rabbitmq_connection: stubs.connection, statsd_client: statsd_client, logger: logger).run
       }.to raise_error(SystemExit)
 
-      expect(statsd_client.incremented_keys).to eql(['some-queue.started', 'some-queue.uncaught_exception'])
+      expect(statsd_client.incremented_keys).to eql(["some-queue.started", "some-queue.uncaught_exception"])
     end
   end
 
   class StatsdClientMock
     attr_reader :incremented_keys
+
     def initialize
       @incremented_keys = []
     end

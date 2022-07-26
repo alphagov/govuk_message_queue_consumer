@@ -1,13 +1,12 @@
-require 'spec_helper'
+require "spec_helper"
 
 module GovukMessageQueueConsumer
   RSpec.describe RabbitMQConfig do
     describe ".from_environment" do
-
       it "provides a friendly error message when a variable is missing" do
         empty_hash = {}
         expect {
-          RabbitMQConfig.from_environment(empty_hash)
+          described_class.from_environment(empty_hash)
         }.to raise_error(RabbitMQConfig::ConfigurationError)
       end
 
@@ -19,8 +18,8 @@ module GovukMessageQueueConsumer
           "RABBITMQ_PASSWORD" => "my_pass",
         }
 
-        expect(RabbitMQConfig.from_environment(env)).to eql({
-          hosts: ["server-one", "server-two"],
+        expect(described_class.from_environment(env)).to eql({
+          hosts: %w[server-one server-two],
           vhost: "/",
           user: "my_user",
           pass: "my_pass",
@@ -30,4 +29,3 @@ module GovukMessageQueueConsumer
     end
   end
 end
-
