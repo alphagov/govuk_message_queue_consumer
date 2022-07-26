@@ -1,7 +1,7 @@
-require_relative "spec_helper"
-require_relative "support/queue_helpers"
+require "spec_helper"
+require "support/queue_helpers"
 
-describe Consumer do
+describe GovukMessageQueueConsumer::Consumer do
   include QueueHelpers
 
   let(:logger) { instance_double("Logger") }
@@ -31,10 +31,10 @@ describe Consumer do
       queue = stubs.queue
 
       expect(queue).to receive(:subscribe).and_yield(:delivery_info_object, :headers, "payload")
-      heartbeat_processor_stub = instance_double(HeartbeatProcessor)
-      allow(HeartbeatProcessor).to receive(:new).and_return(heartbeat_processor_stub)
+      heartbeat_processor_stub = instance_double(GovukMessageQueueConsumer::HeartbeatProcessor)
+      allow(GovukMessageQueueConsumer::HeartbeatProcessor).to receive(:new).and_return(heartbeat_processor_stub)
 
-      expect(heartbeat_processor_stub).to receive(:process).with(kind_of(Message))
+      expect(heartbeat_processor_stub).to receive(:process).with(kind_of(GovukMessageQueueConsumer::Message))
 
       described_class.new(queue_name: "some-queue", processor: client_processor, rabbitmq_connection: stubs.connection, logger: logger).run
     end

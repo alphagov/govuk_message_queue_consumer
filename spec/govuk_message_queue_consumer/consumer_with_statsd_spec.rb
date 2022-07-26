@@ -1,7 +1,7 @@
-require_relative "spec_helper"
-require_relative "support/queue_helpers"
+require "spec_helper"
+require "support/queue_helpers"
 
-describe Consumer do
+describe GovukMessageQueueConsumer::Consumer do
   include QueueHelpers
 
   let(:logger) { instance_double("Logger") }

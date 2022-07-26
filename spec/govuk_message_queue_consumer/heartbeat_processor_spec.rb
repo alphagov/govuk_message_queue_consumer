@@ -1,6 +1,6 @@
-require_relative "spec_helper"
+require "spec_helper"
 
-describe HeartbeatProcessor do
+describe GovukMessageQueueConsumer::HeartbeatProcessor do
   let(:heartbeat_headers) { instance_double("Heartbeat Headers", content_type: "application/x-heartbeat") }
   let(:heartbeat_message) { instance_double("Heartbeat Message", headers: heartbeat_headers, ack: nil) }
   let(:standard_headers) { instance_double("Standard Headers", content_type: nil) }

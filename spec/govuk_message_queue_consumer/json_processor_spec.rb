@@ -1,9 +1,9 @@
-require_relative "spec_helper"
+require "spec_helper"
 
-describe JSONProcessor do
+describe GovukMessageQueueConsumer::JSONProcessor do
   describe "#process" do
     it "parses the payload string" do
-      message = MockMessage.new('{"some":"json"}', { content_type: "application/json" })
+      message = GovukMessageQueueConsumer::MockMessage.new('{"some":"json"}', { content_type: "application/json" })
 
       expect(described_class.new.process(message)).to be_truthy
 
@@ -11,7 +11,7 @@ describe JSONProcessor do
     end
 
     it "discards messages with JSON errors" do
-      message = MockMessage.new('{"some" "json"}', { content_type: "application/json" })
+      message = GovukMessageQueueConsumer::MockMessage.new('{"some" "json"}', { content_type: "application/json" })
 
       expect(described_class.new.process(message)).to be_falsy
 
@@ -19,7 +19,7 @@ describe JSONProcessor do
     end
 
     it "doesn't parse non-JSON message" do
-      message = MockMessage.new("<SomeXML></SomeXML>", { content_type: "application/xml" })
+      message = GovukMessageQueueConsumer::MockMessage.new("<SomeXML></SomeXML>", { content_type: "application/xml" })
 
       expect(described_class.new.process(message)).to be_truthy
 

@@ -1,4 +1,4 @@
-require_relative "../spec_helper"
+require "spec_helper"
 require "govuk_message_queue_consumer/test_helpers"
 
 describe "The usage of the shared example" do
