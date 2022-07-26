@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "bunny-mock"
   s.add_development_dependency "pry-byebug"
-  s.add_development_dependency "rake", "~> 13.0.0"
+  s.add_development_dependency "rake"
   s.add_development_dependency "rspec", "~> 3.11.0"
   s.add_development_dependency "rubocop-govuk", "4.6.0"
   s.add_development_dependency "yard"
