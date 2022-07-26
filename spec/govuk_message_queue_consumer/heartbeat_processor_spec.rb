@@ -8,25 +8,29 @@ describe GovukMessageQueueConsumer::HeartbeatProcessor do
 
   context "when receiving heartbeat message" do
     it "doesn't call the next processor" do
-      expect(subject.process(heartbeat_message)).to be_falsy
+      processor = described_class.new
+      expect(processor.process(heartbeat_message)).to be_falsy
     end
 
     it "acks the message" do
       expect(heartbeat_message).to receive(:ack)
 
-      subject.process(heartbeat_message)
+      processor = described_class.new
+      processor.process(heartbeat_message)
     end
   end
 
   context "when receiving a content message" do
     it "calls the next processor" do
-      expect(subject.process(standard_message)).to be_truthy
+      processor = described_class.new
+      expect(processor.process(standard_message)).to be_truthy
     end
 
     it "doesn't ack the message" do
       expect(standard_message).not_to receive(:ack)
 
-      subject.process(standard_message)
+      processor = described_class.new
+      processor.process(standard_message)
     end
   end
 end
