@@ -7,9 +7,7 @@ module GovukMessageQueueConsumer
     alias_method :retried?, :retried
 
     def initialize(payload = {}, headers = {}, delivery_info = {})
-      @payload = payload
-      @headers = OpenStruct.new(headers)
-      @delivery_info = OpenStruct.new(delivery_info)
+      super(payload, OpenStruct.new(headers), OpenStruct.new(delivery_info))
     end
 
     def ack
