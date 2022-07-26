@@ -38,7 +38,7 @@ module GovukMessageQueueConsumer
       rescue SignalException => e
         @logger.error "SignalException in processor: \n\n #{e.class}: #{e.message}\n\n#{e.backtrace.join("\n")}"
         exit(1) # Ensure rabbitmq requeues outstanding messages
-      rescue Exception => e
+      rescue StandardError => e
         @statsd_client.increment("#{@queue_name}.uncaught_exception")
         GovukError.notify(e) if defined?(GovukError)
         @logger.error "Uncaught exception in processor: \n\n #{e.class}: #{e.message}\n\n#{e.backtrace.join("\n")}"
