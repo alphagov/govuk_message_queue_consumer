@@ -1,3 +1,7 @@
+# Unreleased
+
+- Breaking: remove batch consumer
+
 # 3.5.0
 
 - Stop reporting `SignalExceptions` to `GovukError`.
