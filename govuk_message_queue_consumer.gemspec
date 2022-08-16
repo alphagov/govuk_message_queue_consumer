@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'bunny', '~> 2.11'
 
-  s.add_development_dependency 'rspec', '~> 3.10.0'
+  s.add_development_dependency 'rspec', '~> 3.11.0'
   s.add_development_dependency 'rake', '~> 13.0.0'
   s.add_development_dependency 'yard'
   s.add_development_dependency 'bunny-mock'
