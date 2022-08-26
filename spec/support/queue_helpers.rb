@@ -12,11 +12,11 @@ module QueueHelpers
   end
 
   def create_channel(queue)
-    instance_double('Bunny::Channel', queue: queue, prefetch: nil, topic: nil)
+    instance_double("Bunny::Channel", queue: queue, prefetch: nil, topic: nil)
   end
 
   def create_queue
-    instance_double('Bunny::Queue', bind: nil, subscribe: '')
+    instance_double("Bunny::Queue", bind: nil, subscribe: "")
   end
 
   class BunnyStubs
@@ -28,5 +28,4 @@ module QueueHelpers
       @queue = queue
     end
   end
-
 end

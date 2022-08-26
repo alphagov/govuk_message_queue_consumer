@@ -17,7 +17,7 @@ module GovukMessageQueueConsumer
 
     def handles_batches?(processor)
       case processor
-      when HeartbeatProcessor,JSONProcessor
+      when HeartbeatProcessor, JSONProcessor
         false
       else
         @handle_batches

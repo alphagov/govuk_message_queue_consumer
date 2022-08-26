@@ -2,14 +2,12 @@ module GovukMessageQueueConsumer
   class MockMessage < Message
     attr_reader :acked, :retried, :discarded, :payload, :header, :delivery_info
 
-    alias :acked? :acked
-    alias :discarded? :discarded
-    alias :retried? :retried
+    alias_method :acked?, :acked
+    alias_method :discarded?, :discarded
+    alias_method :retried?, :retried
 
     def initialize(payload = {}, headers = {}, delivery_info = {})
-      @payload = payload
-      @headers = OpenStruct.new(headers)
-      @delivery_info = OpenStruct.new(delivery_info)
+      super(payload, OpenStruct.new(headers), OpenStruct.new(delivery_info))
     end
 
     def ack

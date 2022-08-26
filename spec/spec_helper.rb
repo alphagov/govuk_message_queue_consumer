@@ -1,8 +1,7 @@
-require_relative '../lib/govuk_message_queue_consumer'
+require_relative "../lib/govuk_message_queue_consumer"
 
-include GovukMessageQueueConsumer
-require 'bunny-mock'
-require 'pry'
+require "bunny-mock"
+require "pry"
 BunnyMock.use_bunny_queue_pop_api = true
 
 module TestHelpers
@@ -16,5 +15,5 @@ end
 
 RSpec.configure do |c|
   c.include TestHelpers
-  c.order = 'random'
+  c.order = "random"
 end

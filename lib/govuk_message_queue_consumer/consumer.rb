@@ -10,6 +10,10 @@ module GovukMessageQueueConsumer
     # time to share the work evenly.
     NUMBER_OF_MESSAGES_TO_PREFETCH = 1
 
+    def self.default_connection_from_env
+      Bunny.new(GovukMessageQueueConsumer::RabbitMQConfig.from_environment(ENV))
+    end
+
     # Create a new consumer
     #
     # @param queue_name [String] Your queue name. This is specific to your application,
@@ -18,7 +22,7 @@ module GovukMessageQueueConsumer
     # @param rabbitmq_connection [Object] A Bunny connection object derived from `Bunny.new`
     # @param statsd_client [Statsd] An instance of the Statsd class
     # @param logger [Object] A Logger object for emitting errors (to stderr by default)
-    def initialize(queue_name:, processor:, rabbitmq_connection: Consumer.default_connection_from_env, statsd_client: NullStatsd.new, logger: Logger.new(STDERR))
+    def initialize(queue_name:, processor:, rabbitmq_connection: Consumer.default_connection_from_env, statsd_client: NullStatsd.new, logger: Logger.new($stderr))
       @queue_name = queue_name
       @processor = processor
       @rabbitmq_connection = rabbitmq_connection
@@ -29,33 +33,29 @@ module GovukMessageQueueConsumer
     def run(subscribe_opts: {})
       @rabbitmq_connection.start
 
-      subscribe_opts = { block: true, manual_ack: true}.merge(subscribe_opts)
+      subscribe_opts = { block: true, manual_ack: true }.merge(subscribe_opts)
       queue.subscribe(subscribe_opts) do |delivery_info, headers, payload|
-        begin
-          message = Message.new(payload, headers, delivery_info)
-          @statsd_client.increment("#{@queue_name}.started")
-          message_consumer.process(message)
-          @statsd_client.increment("#{@queue_name}.#{message.status}")
-        rescue SignalException => e
-          @logger.error "SignalException in processor: \n\n #{e.class}: #{e.message}\n\n#{e.backtrace.join("\n")}"
-          exit(1) # Ensure rabbitmq requeues outstanding messages
-        rescue Exception => e
-          @statsd_client.increment("#{@queue_name}.uncaught_exception")
-          GovukError.notify(e) if defined?(GovukError)
-          @logger.error "Uncaught exception in processor: \n\n #{e.class}: #{e.message}\n\n#{e.backtrace.join("\n")}"
-          exit(1) # Ensure rabbitmq requeues outstanding messages
-        end
+        message = Message.new(payload, headers, delivery_info)
+        @statsd_client.increment("#{@queue_name}.started")
+        message_consumer.process(message)
+        @statsd_client.increment("#{@queue_name}.#{message.status}")
+      rescue SignalException => e
+        @logger.error "SignalException in processor: \n\n #{e.class}: #{e.message}\n\n#{e.backtrace.join("\n")}"
+        exit(1) # Ensure rabbitmq requeues outstanding messages
+      rescue StandardError => e
+        @statsd_client.increment("#{@queue_name}.uncaught_exception")
+        GovukError.notify(e) if defined?(GovukError)
+        @logger.error "Uncaught exception in processor: \n\n #{e.class}: #{e.message}\n\n#{e.backtrace.join("\n")}"
+        exit(1) # Ensure rabbitmq requeues outstanding messages
       end
     end
 
   private
 
     class NullStatsd
-      def increment(_key)
-      end
+      def increment(_key); end
 
-      def count(_key, _volume)
-      end
+      def count(_key, _volume); end
     end
 
     def message_consumer
@@ -78,10 +78,6 @@ module GovukMessageQueueConsumer
 
     def channel
       @channel ||= @rabbitmq_connection.create_channel
-    end
-
-    def self.default_connection_from_env
-      Bunny.new(GovukMessageQueueConsumer::RabbitMQConfig.from_environment(ENV))
     end
   end
 end
