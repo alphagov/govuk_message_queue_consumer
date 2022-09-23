@@ -1,6 +1,6 @@
-# Unreleased
+# 4.0.0
 
-- Breaking: remove batch consumer
+- Breaking: remove batch consumer ([#73](https://github.com/alphagov/govuk_message_queue_consumer/pull/73))
 
 # 3.5.0
 
