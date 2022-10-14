@@ -67,6 +67,22 @@ RABBITMQ_USER=a_user
 RABBITMQ_PASSWORD=a_super_secret
 ```
 
+### TLS Support
+
+There are also some optional environment variables to supply if your RabbitMQ broker requires TLS connections. Amazon MQ requires TLS, but local RabbitMQ and GOV.UK's self-hosted Rabbit MQ EC2 instances do not. For more information, see  ["Connecting to RabbitMQ from Bunny Using TLS/SSL"](https://github.com/ruby-amqp/bunny/blob/main/docs/guides/tls.md#connecting-to-rabbitmq-from-bunny-using-tlsssl) in the Bunny gem documentation.
+
+```
+RABBITMQ_TLS=true|false (default: false)
+
+# if RABBITMQ_TLS is given and not false-y, it will also look for the following optional environment variables:
+RABBITMQ_TLS_CERT=/path/to/cert (default: nil)
+RABBITMQ_TLS_KEY=/path/to/key (default: nil)
+RABBITMQ_TLS_CA_CERTIFICATES=/path/to/ca_cert1,/path/to/ca_cert2 (default: empty)
+RABBITMQ_VERIFY_PEER=true (default: false)
+```
+
+### Processing class
+
 Define a class that will process the messages:
 
 ```ruby
