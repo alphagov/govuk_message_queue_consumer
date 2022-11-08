@@ -9,7 +9,7 @@ RSpec.describe GovukMessageQueueConsumer::RabbitMQConfig do
       }.to raise_error(described_class::ConfigurationError)
     end
 
-    it "connects to rabbitmq with the correct environment variables" do
+    it "produces the expected configuration from legacy govuk RABBITMQ_x env vars" do
       env = {
         "RABBITMQ_HOSTS" => "server-one,server-two",
         "RABBITMQ_VHOST" => "/",
@@ -22,7 +22,6 @@ RSpec.describe GovukMessageQueueConsumer::RabbitMQConfig do
         vhost: "/",
         user: "my_user",
         pass: "my_pass",
-        recover_from_connection_close: true,
       })
     end
   end

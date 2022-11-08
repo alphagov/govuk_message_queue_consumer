@@ -9,7 +9,6 @@ module GovukMessageQueueConsumer
         vhost: fetch(env, "RABBITMQ_VHOST"),
         user: fetch(env, "RABBITMQ_USER"),
         pass: fetch(env, "RABBITMQ_PASSWORD"),
-        recover_from_connection_close: true,
       }
     end
 
@@ -22,7 +21,9 @@ module GovukMessageQueueConsumer
         The environment variable #{variable_name} is not set. If you are in test
         mode, make sure you set the correct vars in your helpers. If you get this
         error in development, make sure you run rails or rake with `govuk_setenv`
-        and puppet is up to date.
+        and puppet is up to date. RABBITMQ_HOSTS, RABBITMQ_VHOST,
+        RABBITMQ_USER and RABBITMQ_PASSWORD are deprecated. Please switch to
+        RABBITMQ_URL.
       ERR
     end
   end
