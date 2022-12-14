@@ -11,7 +11,12 @@ module GovukMessageQueueConsumer
     NUMBER_OF_MESSAGES_TO_PREFETCH = 1
 
     def self.default_connection_from_env
-      Bunny.new(GovukMessageQueueConsumer::RabbitMQConfig.from_environment(ENV))
+      # https://github.com/ruby-amqp/bunny/blob/066496d/docs/guides/connecting.md#paas-environments
+      if !ENV["RABBITMQ_URL"].to_s.empty?
+        Bunny.new
+      else
+        Bunny.new(RabbitMQConfig.from_environment(ENV))
+      end
     end
 
     # Create a new consumer

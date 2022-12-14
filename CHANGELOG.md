@@ -1,3 +1,14 @@
+# 4.1.0
+
+- Support configuration via
+  [`RABBITMQ_URL`](https://github.com/ruby-amqp/bunny/blob/066496d8/docs/guides/connecting.md#the-rabbitmq_url-environment-variable)
+  instead of `RABBITMQ_HOSTS`, `RABBITMQ_VHOST`, `RABBITMQ_USER` and
+  `RABBITMQ_PASSWORD`, which are deprecated and will be removed in a later
+  version.
+- Update [bunny](https://github.com/ruby-amqp/bunny/) from 2.11 to 2.17, which
+  is the last version that supports Ruby 2.7. See [Bunny
+  changelog](https://github.com/ruby-amqp/bunny/blob/main/ChangeLog.md#changes-between-bunny-216x-and-2170-sep-11th-2020).
+
 # 4.0.0
 
 - Breaking: remove batch consumer ([#73](https://github.com/alphagov/govuk_message_queue_consumer/pull/73))
