@@ -1,3 +1,7 @@
+## Unreleased
+
+* Drop support for Ruby 2.7.
+
 # 4.1.0
 
 - Support configuration via
