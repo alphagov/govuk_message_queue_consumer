@@ -14,7 +14,6 @@ For detailed documentation, check out the [gem documentation on rubydoc.info](ht
 
 This gem is used by:
 
-- [Cache clearing service](https://github.com/alphagov/cache-clearing-service).
 - [Content Data API](https://github.com/alphagov/content-data-api).
 - [Email Alert Service](https://github.com/alphagov/email-alert-service/).
 - [Search API](https://github.com/alphagov/search-api).
