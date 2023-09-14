@@ -17,6 +17,7 @@ This gem is used by:
 - [Content Data API](https://github.com/alphagov/content-data-api).
 - [Email Alert Service](https://github.com/alphagov/email-alert-service/).
 - [Search API](https://github.com/alphagov/search-api).
+- [Search API v2](https://github.com/alphagov/search-api-v2).
 
 ## Overview of RabbitMQ
 
