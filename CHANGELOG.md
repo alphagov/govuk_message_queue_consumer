@@ -1,6 +1,7 @@
 ## Unreleased
 
-* Drop support for Ruby 2.7.
+- Drop support for Ruby 2.7.
+- Fix ability to handle system signals, and report non-`SIGTERM` errors to `GovukError`
 
 # 4.1.0
 
@@ -36,7 +37,7 @@
 # 3.2.0
 
 - Add batch process capabilities
-- Refactor `process_chain` to `message_consumer` 
+- Refactor `process_chain` to `message_consumer`
 
 # 3.1.0
 
