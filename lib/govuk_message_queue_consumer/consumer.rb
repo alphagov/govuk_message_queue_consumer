@@ -44,15 +44,16 @@ module GovukMessageQueueConsumer
         @statsd_client.increment("#{@queue_name}.started")
         message_consumer.process(message)
         @statsd_client.increment("#{@queue_name}.#{message.status}")
-      rescue SignalException => e
-        @logger.error "SignalException in processor: \n\n #{e.class}: #{e.message}\n\n#{e.backtrace.join("\n")}"
-        exit(1) # Ensure rabbitmq requeues outstanding messages
       rescue StandardError => e
         @statsd_client.increment("#{@queue_name}.uncaught_exception")
         GovukError.notify(e) if defined?(GovukError)
         @logger.error "Uncaught exception in processor: \n\n #{e.class}: #{e.message}\n\n#{e.backtrace.join("\n")}"
         exit(1) # Ensure rabbitmq requeues outstanding messages
       end
+    rescue SignalException => e
+      GovukError.notify(e) if defined?(GovukError) && e.message != "SIGTERM"
+
+      exit
     end
 
   private
