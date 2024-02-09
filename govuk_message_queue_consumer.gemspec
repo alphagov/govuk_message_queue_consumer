@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.description = "Avoid writing boilerplate code in order to consume messages from an AMQP message queue. Plug in queue configuration, and how to process each message."
   s.homepage = "https://github.com/alphagov/govuk_message_queue_consumer"
   s.email = ["govuk-dev@digital.cabinet-office.gov.uk"]
-  s.required_ruby_version = ">= 3.0"
+  s.required_ruby_version = ">= 3.3"
 
   s.files = Dir.glob("lib/**/*") + %w[LICENCE README.md CHANGELOG.md]
   s.require_path = "lib"
