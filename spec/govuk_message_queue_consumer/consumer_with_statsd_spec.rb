@@ -36,10 +36,10 @@ describe GovukMessageQueueConsumer::Consumer do
       processor = instance_double("HeartbeatProcessor")
       described_class.new(
         queue_name: "some-queue",
-        processor: processor,
+        processor:,
         rabbitmq_connection: stubs.connection,
-        statsd_client: statsd_client,
-        logger: logger,
+        statsd_client:,
+        logger:,
       ).run
 
       expect(statsd_client.incremented_keys).to eql(["some-queue.started", "some-queue.discarded"])
@@ -57,7 +57,7 @@ describe GovukMessageQueueConsumer::Consumer do
       expect(logger).to receive(:error)
 
       expect {
-        described_class.new(queue_name: "some-queue", processor: processor, rabbitmq_connection: stubs.connection, statsd_client: statsd_client, logger: logger).run
+        described_class.new(queue_name: "some-queue", processor:, rabbitmq_connection: stubs.connection, statsd_client:, logger:).run
       }.to raise_error(SystemExit)
 
       expect(statsd_client.incremented_keys).to eql(["some-queue.started", "some-queue.uncaught_exception"])

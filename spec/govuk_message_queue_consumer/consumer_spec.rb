@@ -15,13 +15,13 @@ describe GovukMessageQueueConsumer::Consumer do
     it "doesn't create the queue" do
       expect(channel).to receive(:queue).with("some-queue", { no_declare: true })
 
-      described_class.new(queue_name: "some-queue", processor: client_processor, rabbitmq_connection: stubs.connection, logger: logger).run
+      described_class.new(queue_name: "some-queue", processor: client_processor, rabbitmq_connection: stubs.connection, logger:).run
     end
 
     it "doesn't bind the queue" do
       expect(queue).not_to receive(:bind)
 
-      described_class.new(queue_name: "some-queue", processor: client_processor, rabbitmq_connection: stubs.connection, logger: logger).run
+      described_class.new(queue_name: "some-queue", processor: client_processor, rabbitmq_connection: stubs.connection, logger:).run
     end
 
     it "calls the heartbeat processor when subscribing to messages" do
@@ -31,7 +31,7 @@ describe GovukMessageQueueConsumer::Consumer do
 
       expect(heartbeat_processor_stub).to receive(:process).with(kind_of(GovukMessageQueueConsumer::Message))
 
-      described_class.new(queue_name: "some-queue", processor: client_processor, rabbitmq_connection: stubs.connection, logger: logger).run
+      described_class.new(queue_name: "some-queue", processor: client_processor, rabbitmq_connection: stubs.connection, logger:).run
     end
 
     context "when a SignalException is raised" do
@@ -43,7 +43,7 @@ describe GovukMessageQueueConsumer::Consumer do
         let(:error) { SignalException.new("SIGTERM") }
 
         it "gracefully exits" do
-          expect { described_class.new(queue_name: "some-queue", processor: client_processor, rabbitmq_connection: stubs.connection, logger: logger).run }.to raise_error(SystemExit)
+          expect { described_class.new(queue_name: "some-queue", processor: client_processor, rabbitmq_connection: stubs.connection, logger:).run }.to raise_error(SystemExit)
         end
       end
 
@@ -56,7 +56,7 @@ describe GovukMessageQueueConsumer::Consumer do
 
         it "gracefully exits after notifying GovukError" do
           expect(GovukError).to receive(:notify).with(error)
-          expect { described_class.new(queue_name: "some-queue", processor: client_processor, rabbitmq_connection: stubs.connection, logger: logger).run }.to raise_error(SystemExit)
+          expect { described_class.new(queue_name: "some-queue", processor: client_processor, rabbitmq_connection: stubs.connection, logger:).run }.to raise_error(SystemExit)
         end
       end
     end

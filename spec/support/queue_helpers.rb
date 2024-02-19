@@ -4,7 +4,7 @@ module QueueHelpers
     queue = create_queue
     channel = create_channel(queue)
     conn = create_connection(channel)
-    BunnyStubs.new(connection: conn, channel: channel, queue: queue)
+    BunnyStubs.new(connection: conn, channel:, queue:)
   end
 
   def create_connection(channel)
@@ -12,7 +12,7 @@ module QueueHelpers
   end
 
   def create_channel(queue)
-    instance_double("Bunny::Channel", queue: queue, prefetch: nil, topic: nil)
+    instance_double("Bunny::Channel", queue:, prefetch: nil, topic: nil)
   end
 
   def create_queue
