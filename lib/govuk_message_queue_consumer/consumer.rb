@@ -1,6 +1,5 @@
 module GovukMessageQueueConsumer
   class Consumer
-    HANDLE_BATCHES = false
     # Only fetch one message at a time on the channel.
     #
     # By default, queues will grab messages eagerly, which reduces latency.
@@ -71,7 +70,6 @@ module GovukMessageQueueConsumer
           JSONProcessor.new,
           @processor,
         ],
-        handle_batches: self.class::HANDLE_BATCHES,
       )
     end
 

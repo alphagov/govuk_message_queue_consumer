@@ -1,3 +1,7 @@
+# Unreleased
+
+- Clean up some disused remnants of the batch consumer feature. The feature was removed in 4.0.0.
+
 # 4.2.0
 
 * Drop support for Ruby 3.0. The minimum required Ruby version is now 3.1.4.
