@@ -16,18 +16,16 @@ module GovukMessageQueueConsumer
     #                            configured via Terraform.
     # @param processor [Object] An object that responds to `process`
     # @param rabbitmq_connection [Object] A Bunny connection object derived from `Bunny.new`
-    # @param statsd_client [Statsd] An instance of the Statsd class
     # @param logger [Object] A Logger object for emitting errors (to stderr by default)
     # @param worker_threads [Number] Size of the worker thread pool. Defaults to 1.
     # @param prefetch [Number] Maximum number of unacked messages to allow on
     #                          the channel. See
     #                          https://www.rabbitmq.com/docs/consumer-prefetch
     #                          Defaults to 1.
-    def initialize(queue_name:, processor:, rabbitmq_connection: Consumer.default_connection_from_env, statsd_client: NullStatsd.new, logger: Logger.new($stderr), worker_threads: 1, prefetch: 1)
+    def initialize(queue_name:, processor:, rabbitmq_connection: Consumer.default_connection_from_env, logger: Logger.new($stderr), worker_threads: 1, prefetch: 1)
       @queue_name = queue_name
       @processor = processor
       @rabbitmq_connection = rabbitmq_connection
-      @statsd_client = statsd_client
       @logger = logger
       @worker_threads = worker_threads
       @prefetch = prefetch
@@ -39,11 +37,8 @@ module GovukMessageQueueConsumer
       subscribe_opts = { block: true, manual_ack: true }.merge(subscribe_opts)
       queue.subscribe(subscribe_opts) do |delivery_info, headers, payload|
         message = Message.new(payload, headers, delivery_info)
-        @statsd_client.increment("#{@queue_name}.started")
         message_consumer.process(message)
-        @statsd_client.increment("#{@queue_name}.#{message.status}")
       rescue StandardError => e
-        @statsd_client.increment("#{@queue_name}.uncaught_exception")
         GovukError.notify(e) if defined?(GovukError)
         @logger.error "Uncaught exception in processor: \n\n #{e.class}: #{e.message}\n\n#{e.backtrace.join("\n")}"
         exit(1) # Ensure rabbitmq requeues outstanding messages
@@ -55,12 +50,6 @@ module GovukMessageQueueConsumer
     end
 
   private
-
-    class NullStatsd
-      def increment(_key); end
-
-      def count(_key, _volume); end
-    end
 
     def message_consumer
       @message_consumer ||= MessageConsumer.new(

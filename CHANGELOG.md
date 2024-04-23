@@ -1,5 +1,6 @@
 # Unreleased
 
+- BREAKING: remove disused support for statsd. No clients in alphagov use the statsd functionality any more, so this is only theoretically breaking.
 - Allow clients to specify a Bunny worker thread pool size of greater than 1. The default behaviour remains unchanged.
 - Allow clients to specify "client prefetch" to allow more than one unacked message on a channel at a time. The default behaviour remains unchanged.
 - Clean up some disused remnants of the batch consumer feature. The feature was removed in 4.0.0.

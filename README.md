@@ -116,28 +116,6 @@ class MyProcessor
 end
 ```
 
-### Statsd integration
-
-You can pass a `statsd_client` to the `GovukMessageQueueConsumer::Consumer` initializer. The consumer will emit counters to statsd with these keys:
-
-- `your_queue_name.started` - message picked up from the your_queue_name
-- `your_queue_name.retried` - message has been retried
-- `your_queue_name.acked` - message has been processed and acked
-- `your_queue_name.discarded` - message has been discarded
-- `your_queue_name.uncaught_exception` - an uncaught exception occured during processing
-
-Remember to use a namespace for the `Statsd` client:
-
-```ruby
-statsd_client = Statsd.new("localhost")
-statsd_client.namespace = "govuk.app.my_app_name"
-
-GovukMessageQueueConsumer::Consumer.new(
-  statsd_client: statsd_client
-  # ... other setup code omitted
-).run
-```
-
 ### Testing your processor
 
 This gem provides a test helper for your processor.
