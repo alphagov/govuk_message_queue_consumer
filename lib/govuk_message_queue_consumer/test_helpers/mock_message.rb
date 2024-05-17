@@ -1,3 +1,5 @@
+require "ostruct"
+
 module GovukMessageQueueConsumer
   class MockMessage < Message
     attr_reader :acked, :retried, :discarded, :payload, :header, :delivery_info

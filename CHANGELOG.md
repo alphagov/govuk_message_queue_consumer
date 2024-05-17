@@ -1,3 +1,7 @@
+# Unreleased
+- Add explicit require for `ostruct` library to `MockMessage` (previously relied on `ostruct` being
+  required somewhere in consuming code)
+
 # 5.0.0
 
 - BREAKING: remove disused support for statsd. No clients in alphagov use the statsd functionality any more, so this is only theoretically breaking.
