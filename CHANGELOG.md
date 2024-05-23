@@ -1,4 +1,4 @@
-# Unreleased
+# 5.0.1
 - Add explicit require for `ostruct` library to `MockMessage` (previously relied on `ostruct` being
   required somewhere in consuming code)
 
