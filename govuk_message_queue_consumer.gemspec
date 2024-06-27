@@ -22,6 +22,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency "pry-byebug"
   s.add_development_dependency "rake"
   s.add_development_dependency "rspec", "~> 3.11"
-  s.add_development_dependency "rubocop-govuk", "4.18.0"
+  s.add_development_dependency "rubocop-govuk", "5.0.1"
   s.add_development_dependency "yard"
 end
