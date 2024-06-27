@@ -8,15 +8,15 @@ module QueueHelpers
   end
 
   def create_connection(channel)
-    instance_double("Bunny::Session", start: nil, create_channel: channel)
+    instance_double(Bunny::Session, start: nil, create_channel: channel)
   end
 
   def create_channel(queue)
-    instance_double("Bunny::Channel", queue:, prefetch: nil, topic: nil)
+    instance_double(Bunny::Channel, queue:, prefetch: nil, topic: nil)
   end
 
   def create_queue
-    instance_double("Bunny::Queue", bind: nil, subscribe: "")
+    instance_double(Bunny::Queue, bind: nil, subscribe: "")
   end
 
   class BunnyStubs

@@ -1,9 +1,9 @@
 require "spec_helper"
 
 describe GovukMessageQueueConsumer::Message do
-  let(:mock_channel) { instance_double("Channel") }
-  let(:delivery_info) { instance_double("DeliveryInfo", channel: mock_channel, delivery_tag: "a_tag") }
-  let(:headers) { instance_double("Headers") }
+  let(:mock_channel) { instance_double(Channel) }
+  let(:delivery_info) { instance_double(DeliveryInfo, channel: mock_channel, delivery_tag: "a_tag") }
+  let(:headers) { instance_double(Headers) }
   let(:message) { described_class.new({ "a" => "payload" }, headers, delivery_info) }
 
   it "ack sends an ack to the channel" do
