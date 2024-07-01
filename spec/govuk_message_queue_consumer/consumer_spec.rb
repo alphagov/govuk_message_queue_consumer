@@ -4,8 +4,8 @@ require "support/queue_helpers"
 describe GovukMessageQueueConsumer::Consumer do
   include QueueHelpers
 
-  let(:logger) { instance_double(Logger) }
-  let(:client_processor) { instance_double(Client::Processor) }
+  let(:logger) { double }
+  let(:client_processor) { double }
 
   describe "#run" do
     let(:stubs) { create_bunny_stubs }

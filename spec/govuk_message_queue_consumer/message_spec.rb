@@ -1,10 +1,14 @@
 require "spec_helper"
 
 describe GovukMessageQueueConsumer::Message do
-  let(:mock_channel) { instance_double(Channel) }
-  let(:delivery_info) { instance_double(DeliveryInfo, channel: mock_channel, delivery_tag: "a_tag") }
-  let(:headers) { instance_double(Headers) }
+  let(:mock_channel) { double }
+  let(:delivery_info) { double }
+  let(:headers) { double }
   let(:message) { described_class.new({ "a" => "payload" }, headers, delivery_info) }
+
+  before do
+    allow(delivery_info).to receive_messages(channel: mock_channel, delivery_tag: "a_tag")
+  end
 
   it "ack sends an ack to the channel" do
     expect(mock_channel).to receive(:ack).with("a_tag")

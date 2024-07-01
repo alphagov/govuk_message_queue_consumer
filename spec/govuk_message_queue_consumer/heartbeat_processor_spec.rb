@@ -1,10 +1,17 @@
 require "spec_helper"
 
 describe GovukMessageQueueConsumer::HeartbeatProcessor do
-  let(:heartbeat_headers) { instance_double(Heartbeat(Headers, content_type: "application/x-heartbeat")) }
-  let(:heartbeat_message) { instance_double(Heartbeat(Message, headers: heartbeat_headers, ack: nil)) }
-  let(:standard_headers) { instance_double(Standard(Headers, content_type: nil)) }
-  let(:standard_message) { instance_double(Standard(Message, headers: standard_headers, ack: nil)) }
+  let(:heartbeat_headers) { double }
+  let(:heartbeat_message) { double }
+  let(:standard_headers) { double }
+  let(:standard_message) { double }
+
+  before do
+    allow(heartbeat_headers).to receive(:content_type).and_return("application/x-heartbeat")
+    allow(heartbeat_message).to receive_messages(headers: heartbeat_headers, ack: nil)
+    allow(standard_headers).to receive(:content_type).and_return(nil)
+    allow(standard_message).to receive_messages(headers: standard_headers, ack: nil)
+  end
 
   context "when receiving heartbeat message" do
     it "doesn't call the next processor" do
