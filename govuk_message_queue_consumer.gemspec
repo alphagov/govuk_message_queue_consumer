@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.require_path = "lib"
 
   s.add_dependency "bunny", "~> 2.17"
+  s.add_dependency "ostruct"
 
   s.add_development_dependency "bunny-mock"
   s.add_development_dependency "pry-byebug"

@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+* Add explicit gem dependency for `ostruct` gem (extracted from stdlib into a gem from Ruby 3.5.0)
+  ([#131](https://github.com/alphagov/govuk_message_queue_consumer/pull/131))
+
 ## 5.0.1
 
 * Add explicit require for `ostruct` library to `MockMessage` (previously relied on `ostruct` being
