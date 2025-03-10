@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 5.0.2
 
 * Add explicit gem dependency for `ostruct` gem (extracted from stdlib into a gem from Ruby 3.5.0)
   ([#131](https://github.com/alphagov/govuk_message_queue_consumer/pull/131))
