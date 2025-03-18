@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.3
+
+* Update dependencies
+
 ## 5.0.2
 
 * Add explicit gem dependency for `ostruct` gem (extracted from stdlib into a gem from Ruby 3.5.0)
