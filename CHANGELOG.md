@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 6.0.0
 
 * BREAKING: Drop support for Ruby 3.1 [PR](https://github.com/alphagov/govuk_message_queue_consumer/pull/137)
 
