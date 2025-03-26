@@ -1,5 +1,9 @@
 # Changelog
 
+## 6.0.0
+
+* BREAKING: Drop support for Ruby 3.1 [PR](https://github.com/alphagov/govuk_message_queue_consumer/pull/137)
+
 ## 5.0.2
 
 * Add explicit gem dependency for `ostruct` gem (extracted from stdlib into a gem from Ruby 3.5.0)
