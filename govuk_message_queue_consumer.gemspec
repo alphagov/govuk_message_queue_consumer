@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.files = Dir.glob("lib/**/*") + %w[LICENCE README.md CHANGELOG.md]
   s.require_path = "lib"
 
-  s.add_dependency "bunny", "~> 2.17"
+  s.add_dependency "bunny", ">= 2.17", "< 4.0"
   s.add_dependency "ostruct"
 
   s.add_development_dependency "bunny-mock"
