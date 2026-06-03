@@ -15,7 +15,7 @@ updates:
       test:
         patterns:
           - "bunny-mock"
-          - "rspec",
+          - "rspec"
 
   - package-ecosystem: github-actions
     directory: /
